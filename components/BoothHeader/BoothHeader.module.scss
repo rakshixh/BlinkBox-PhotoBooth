@@ -1,0 +1,35 @@
+@use "../../styles/mixins" as *;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 76px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  z-index: 1;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink);
+  text-decoration: none;
+  font: 700 var(--font-brand) var(--serif);
+  letter-spacing: -0.8px;
+}
+.brandMark {
+  display: inline-flex;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: 0 0 1.75rem;
+  color: var(--rust);
+}
+.period {
+  color: var(--rust);
+  margin-left: -9px;
+}
+@include respond(mobile) {
+  .header {
+    min-height: 64px;
+  }
+}
