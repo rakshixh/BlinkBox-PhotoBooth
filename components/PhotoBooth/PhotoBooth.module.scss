@@ -1,4 +1,4 @@
-@use "../../styles/mixins" as *;
+@use '../../styles/mixins' as *;
 .page {
   min-height: 100vh;
   padding: 0 34px;
@@ -115,7 +115,9 @@
   cursor: pointer;
 }
 .formatPicker button:hover,
-.formatPicker button:focus-visible { border-color: var(--rust); }
+.formatPicker button:focus-visible {
+  border-color: var(--rust);
+}
 .formatPicker .selectedFormat {
   border-color: var(--rust);
   background: var(--filter-active);
@@ -130,10 +132,22 @@
   color: var(--rust);
 }
 .formatPicker b,
-.formatPicker small { display: block; }
-.formatPicker b { font-size: var(--font-body-sm); line-height: 1.2; }
-.formatPicker small { margin-top: 4px; color: var(--muted); font-size: var(--font-xs); line-height: 1.25; }
-.liveEditor { margin-top: 26px; }
+.formatPicker small {
+  display: block;
+}
+.formatPicker b {
+  font-size: var(--font-body-sm);
+  line-height: 1.2;
+}
+.formatPicker small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: var(--font-xs);
+  line-height: 1.25;
+}
+.liveEditor {
+  margin-top: 26px;
+}
 .customizeTrigger {
   display: flex;
   width: 100%;
@@ -198,10 +212,21 @@
     gap: 28px;
     padding: 22px;
   }
-  .formatPicker { gap: 5px; }
-  .formatPicker button { min-height: 76px; flex-direction: column; gap: 3px; padding: 8px 7px; }
-  .formatMark { height: 22px; }
-  .formatPicker small { font-size: 10px; }
+  .formatPicker {
+    gap: 5px;
+  }
+  .formatPicker button {
+    min-height: 76px;
+    flex-direction: column;
+    gap: 3px;
+    padding: 8px 7px;
+  }
+  .formatMark {
+    height: 22px;
+  }
+  .formatPicker small {
+    font-size: 10px;
+  }
 }
 @include respond(mobile) {
   .page {
@@ -243,14 +268,28 @@
     gap: 30px;
     padding: 18px;
   }
-  .editorColumn { display: contents; }
-  .editorIntro { order: 0; }
-  .formatPicker { order: 1; width: 100%; margin-bottom: 0; }
+  .editorColumn {
+    display: contents;
+  }
+  .editorIntro {
+    order: 0;
+  }
+  .formatPicker {
+    order: 1;
+    width: 100%;
+    margin-bottom: 0;
+  }
   .previewColumn {
     order: 2;
   }
-  .sourceEditor { order: 3; width: 100%; }
-  .liveEditor { order: 4; width: 100%; }
+  .sourceEditor {
+    order: 3;
+    width: 100%;
+  }
+  .liveEditor {
+    order: 4;
+    width: 100%;
+  }
   .footer {
     gap: 15px;
     padding: 14px 0;

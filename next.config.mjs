@@ -2,6 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   // Allow requests from any hostname in development, including LAN IP addresses.
-  allowedDevOrigins: ["**.*"],
+  allowedDevOrigins: ['**.*'],
 };
 export default nextConfig;

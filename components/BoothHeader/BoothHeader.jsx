@@ -1,6 +1,6 @@
-import styles from "./BoothHeader.module.scss";
-import BrandMark from "@/components/BrandMark/BrandMark";
-import { boothCopy } from "@/data/data";
+import styles from './BoothHeader.module.scss';
+import BrandMark from '@/components/BrandMark/BrandMark';
+import { boothCopy } from '@/data/data';
 
 export default function BoothHeader() {
   return (

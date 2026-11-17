@@ -1,6 +1,6 @@
-import BrandMark from "@/components/BrandMark/BrandMark";
-import { boothCopy } from "@/data/data";
-import styles from "./BoothArtifact.module.scss";
+import BrandMark from '@/components/BrandMark/BrandMark';
+import { boothCopy } from '@/data/data';
+import styles from './BoothArtifact.module.scss';
 
 export default function BoothArtifact() {
   return (
@@ -15,7 +15,7 @@ export default function BoothArtifact() {
         <div className={styles.frames}>
           {boothCopy.heroArtifactFrames.map((frame) => (
             <div
-              className={`${styles.photo} ${styles[frame.id] ?? ""}`}
+              className={`${styles.photo} ${styles[frame.id] ?? ''}`}
               key={frame.id}
               aria-hidden="true"
             >

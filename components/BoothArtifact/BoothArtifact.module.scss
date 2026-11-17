@@ -68,7 +68,7 @@
 .photo::before,
 .photo::after {
   position: absolute;
-  content: "";
+  content: '';
 }
 .photo::before {
   top: 0.18rem;
@@ -111,7 +111,12 @@
 .sunset {
   --scene-sun: var(--swatch-sepia-light);
   --scene-ground: var(--swatch-vintage-dark);
-  background: linear-gradient(145deg, var(--swatch-flash-light), var(--swatch-70-light) 60%, var(--swatch-70-mid));
+  background: linear-gradient(
+    145deg,
+    var(--swatch-flash-light),
+    var(--swatch-70-light) 60%,
+    var(--swatch-70-mid)
+  );
 }
 .printFooter {
   display: flex;

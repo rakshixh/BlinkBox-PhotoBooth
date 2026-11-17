@@ -1,12 +1,9 @@
-"use client";
+'use client';
 
-import { backgroundGroups, backgrounds, boothCopy } from "@/data/data";
-import styles from "./BackdropPicker.module.scss";
+import { backgroundGroups, backgrounds, boothCopy } from '@/data/data';
+import styles from './BackdropPicker.module.scss';
 
-export default function BackdropPicker({
-  selected,
-  onSelect,
-}) {
+export default function BackdropPicker({ selected, onSelect }) {
   return (
     <section className={styles.section} aria-label={boothCopy.activeBackgroundLabel}>
       <div className={styles.groups}>
@@ -20,7 +17,7 @@ export default function BackdropPicker({
                   <button
                     type="button"
                     key={background.id}
-                    className={`${styles.option} ${selected.id === background.id ? styles.selected : ""}`}
+                    className={`${styles.option} ${selected.id === background.id ? styles.selected : ''}`}
                     aria-pressed={selected.id === background.id}
                     onClick={() => onSelect(background)}
                   >

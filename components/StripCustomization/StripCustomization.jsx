@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import styles from "./StripCustomization.module.scss";
-import { borderStyles, boothCopy, captionStyles } from "@/data/data";
+import styles from './StripCustomization.module.scss';
+import { borderStyles, boothCopy, captionStyles } from '@/data/data';
 
 export default function StripCustomization({
   border,
@@ -25,33 +25,39 @@ export default function StripCustomization({
       </div>
 
       <label className={styles.edgeToggle}>
-        <input type="checkbox" checked={edgeEnabled} onChange={(event) => onEdgeEnabledChange(event.target.checked)} />
+        <input
+          type="checkbox"
+          checked={edgeEnabled}
+          onChange={(event) => onEdgeEnabledChange(event.target.checked)}
+        />
         <span className={styles.switch} aria-hidden="true" />
         <span>{boothCopy.borderFieldLabel}</span>
       </label>
-      {edgeEnabled && <fieldset className={styles.fieldset}>
-        <legend>{boothCopy.edgeStyleLabel}</legend>
-        <div className={styles.borderGrid}>
-          {borderStyles.map((option) => (
-            <button
-              className={styles.borderOption}
-              type="button"
-              key={option.id}
-              onClick={() => onBorderChange(option)}
-              aria-pressed={border.id === option.id}
-            >
-              <span className={`${styles.borderSwatch} ${styles[option.id]}`} aria-hidden="true">
-                <i />
-                <i />
-                <i />
-                <b />
-              </span>
-              <span className={styles.optionName}>{option.name}</span>
-              <span className={styles.optionNote}>{option.note}</span>
-            </button>
-          ))}
-        </div>
-      </fieldset>}
+      {edgeEnabled && (
+        <fieldset className={styles.fieldset}>
+          <legend>{boothCopy.edgeStyleLabel}</legend>
+          <div className={styles.borderGrid}>
+            {borderStyles.map((option) => (
+              <button
+                className={styles.borderOption}
+                type="button"
+                key={option.id}
+                onClick={() => onBorderChange(option)}
+                aria-pressed={border.id === option.id}
+              >
+                <span className={`${styles.borderSwatch} ${styles[option.id]}`} aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                  <b />
+                </span>
+                <span className={styles.optionName}>{option.name}</span>
+                <span className={styles.optionNote}>{option.note}</span>
+              </button>
+            ))}
+          </div>
+        </fieldset>
+      )}
 
       <div className={styles.captionField}>
         <label htmlFor="strip-caption">{boothCopy.captionHeading}</label>
@@ -86,7 +92,7 @@ export default function StripCustomization({
           <div>
             {captionStyles.map((option) => (
               <button
-                className={captionStyle.id === option.id ? styles.active : ""}
+                className={captionStyle.id === option.id ? styles.active : ''}
                 type="button"
                 key={option.id}
                 onClick={() => onCaptionStyleChange(option)}

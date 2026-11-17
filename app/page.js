@@ -1,4 +1,4 @@
-import PhotoBooth from "@/components/PhotoBooth/PhotoBooth";
+import PhotoBooth from '@/components/PhotoBooth/PhotoBooth';
 
 export default function HomePage() {
   return <PhotoBooth />;

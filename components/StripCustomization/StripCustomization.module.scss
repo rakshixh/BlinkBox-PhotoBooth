@@ -1,4 +1,4 @@
-@use "../../styles/mixins" as *;
+@use '../../styles/mixins' as *;
 
 .section {
   padding-top: 26px;
@@ -57,12 +57,19 @@
   height: 15px;
   border-radius: 50%;
   background: var(--white-soft);
-  content: "";
+  content: '';
   transition: transform 0.15s;
 }
-.edgeToggle input:checked + .switch { background: var(--rust); }
-.edgeToggle input:checked + .switch::after { transform: translateX(15px); }
-.edgeToggle input:focus-visible + .switch { outline: 2px solid var(--rust); outline-offset: 2px; }
+.edgeToggle input:checked + .switch {
+  background: var(--rust);
+}
+.edgeToggle input:checked + .switch::after {
+  transform: translateX(15px);
+}
+.edgeToggle input:focus-visible + .switch {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+}
 .fieldset legend,
 .captionStyle legend {
   margin-bottom: 9px;
@@ -86,7 +93,7 @@
 .borderOption:hover {
   background: var(--filter-hover);
 }
-.borderOption[aria-pressed="true"] {
+.borderOption[aria-pressed='true'] {
   border-color: var(--rust);
   background: var(--filter-active);
 }
@@ -225,7 +232,7 @@
   height: 5px;
   border-bottom: 1.5px solid var(--white);
   border-left: 1.5px solid var(--white);
-  content: "";
+  content: '';
   transform: rotate(-45deg) translate(1px, -1px);
 }
 .dateToggle input:focus-visible + .checkmark {

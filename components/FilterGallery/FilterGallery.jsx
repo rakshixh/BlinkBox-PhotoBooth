@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import styles from "./FilterGallery.module.scss";
-import { boothCopy, filters } from "@/data/data";
-import Icon from "@/components/Icon/Icon";
+import styles from './FilterGallery.module.scss';
+import { boothCopy, filters } from '@/data/data';
+import Icon from '@/components/Icon/Icon';
 
 export default function FilterGallery({ selected, onSelect }) {
   return (
@@ -13,7 +13,7 @@ export default function FilterGallery({ selected, onSelect }) {
           <p>{boothCopy.filterSubheading}</p>
         </div>
         <span className={styles.count}>
-          {String(filters.length).padStart(2, "0")} {boothCopy.filterCountSuffix}
+          {String(filters.length).padStart(2, '0')} {boothCopy.filterCountSuffix}
         </span>
       </div>
       <div className={styles.grid}>
@@ -22,10 +22,10 @@ export default function FilterGallery({ selected, onSelect }) {
             type="button"
             key={filter.id}
             onClick={() => onSelect(filter)}
-            className={`${styles.filter} ${selected.id === filter.id ? styles.active : ""}`}
+            className={`${styles.filter} ${selected.id === filter.id ? styles.active : ''}`}
             aria-pressed={selected.id === filter.id}
           >
-            <span className={`${styles.swatch} ${styles[filter.id] ?? ""}`}>
+            <span className={`${styles.swatch} ${styles[filter.id] ?? ''}`}>
               <span>{boothCopy.filterPreviewLabel}</span>
             </span>
             <span className={styles.filterName}>{filter.name}</span>
