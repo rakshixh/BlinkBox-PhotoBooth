@@ -3,6 +3,7 @@
 import styles from './StripPreview.module.scss';
 import { boothCopy, stripSettings } from '@/data/data';
 import { formatPhotoDate } from '@/lib/formatPhotoDate';
+import BackdropSurface from '@/components/BackdropSurface/BackdropSurface';
 
 export default function StripPreview({
   images,
@@ -10,8 +11,6 @@ export default function StripPreview({
   filter,
   activeIndex,
   onSelectImage,
-  border,
-  edgeEnabled,
   background,
   caption,
   includeDate,
@@ -64,15 +63,14 @@ export default function StripPreview({
         </div>
       ) : (
         <div className={`${styles.paperWrap} ${singlePhoto ? styles.polaroidWrap : ''}`}>
-          <div
-            className={`${styles.paper} ${edgeEnabled ? (styles[border.id] ?? '') : ''} ${styles[background.id] ?? ''} ${singlePhoto ? styles.polaroid : ''}`}
+          <BackdropSurface
+            background={background}
+            className={`${styles.paper} ${singlePhoto ? styles.polaroid : ''}`}
             style={{
               '--photo-ratio': `${previewSettings.width - previewSettings.padding * 2} / ${previewSettings.photoHeight}`,
               '--photo-grain': filter?.grain ?? 0,
               '--photo-vignette-soft': `${(filter?.vignette ?? 0) * 35}%`,
               '--photo-vignette-full': `${(filter?.vignette ?? 0) * 100}%`,
-              '--photo-pattern-size': background?.patternSize ?? 'auto',
-              '--photo-edge-width': border.edgeCssWidth,
             }}
           >
             {Array.from({ length: frameCount }, (_, index) => {
@@ -107,13 +105,22 @@ export default function StripPreview({
             })}
             {format !== 'photo' && (
               <div className={styles.paperFooter}>
-                <span className={styles[`caption-${captionStyle.id}`] ?? styles.captionStamp}>
+                <span
+                  className={`${styles.captionText} ${styles[`caption-${captionStyle.id}`] ?? styles.captionStamp}`}
+                  style={{ fontSize: caption.length > 32 ? '6px' : '7px' }}
+                >
                   {caption}
                 </span>
-                {includeDate && <span>{formatPhotoDate()}</span>}
+                {includeDate && (
+                  <span
+                    className={`${styles.dateText} ${styles[`caption-${captionStyle.id}`] ?? ''}`}
+                  >
+                    {formatPhotoDate()}
+                  </span>
+                )}
               </div>
             )}
-          </div>
+          </BackdropSurface>
         </div>
       )}
       <p className={styles.previewHint}>

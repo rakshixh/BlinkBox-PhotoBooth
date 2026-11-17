@@ -8,11 +8,11 @@ import CaptureControls from '@/components/CaptureControls/CaptureControls';
 import BackdropPicker from '@/components/BackdropPicker/BackdropPicker';
 import FilterGallery from '@/components/FilterGallery/FilterGallery';
 import StripCustomization from '@/components/StripCustomization/StripCustomization';
+import DownloadCountdownModal from '@/components/DownloadCountdownModal/DownloadCountdownModal';
 import Icon from '@/components/Icon/Icon';
 import styles from './PhotoBooth.module.scss';
 import {
   backgrounds,
-  borderStyles,
   boothCopy,
   captionStyles,
   filters,
@@ -28,11 +28,7 @@ export default function PhotoBooth() {
   const [images, setImages] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState(filters[0]);
-  const [selectedBackdrop, setSelectedBackdrop] = useState(
-    backgrounds.find((background) => background.id === 'paper-classic'),
-  );
-  const [selectedBorder, setSelectedBorder] = useState(borderStyles[0]);
-  const [edgeEnabled, setEdgeEnabled] = useState(false);
+  const [selectedBackdrop, setSelectedBackdrop] = useState(backgrounds[0]);
   const [caption, setCaption] = useState(boothCopy.defaultCaption);
   const [includeDate, setIncludeDate] = useState(true);
   const [selectedCaptionStyle, setSelectedCaptionStyle] = useState(captionStyles[0]);
@@ -41,6 +37,7 @@ export default function PhotoBooth() {
   const [uploadError, setUploadError] = useState('');
   const [countdown, setCountdown] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [downloadNoticeOpen, setDownloadNoticeOpen] = useState(false);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const cameraRequestRef = useRef(0);
@@ -296,40 +293,41 @@ export default function PhotoBooth() {
         addGrain(context, x, y, photoWidth, photoHeight, selectedFilter.grain, index + 1);
       if (selectedFilter.vignette > 0)
         addVignette(context, x, y, photoWidth, photoHeight, selectedFilter.vignette, rootStyles);
-      if (edgeEnabled) {
-        context.strokeStyle = rootStyles.getPropertyValue(selectedBorder.edgeToken).trim();
-        context.lineWidth = selectedBorder.edgeWidth;
-        context.strokeRect(
-          x + context.lineWidth / 2,
-          y + context.lineWidth / 2,
-          photoWidth - context.lineWidth,
-          photoHeight - context.lineWidth,
-        );
-      }
     }
 
     const paperInkToken = selectedBackdrop.inkToken;
     context.fillStyle = rootStyles.getPropertyValue(paperInkToken).trim();
     context.textBaseline = 'middle';
     const rootFontSize = Number.parseFloat(rootStyles.fontSize);
-    const monoFont = rootStyles.getPropertyValue('--mono').trim();
     const stampFontSize =
       Number.parseFloat(rootStyles.getPropertyValue('--font-export-stamp')) * rootFontSize;
     const metaFontSize =
       Number.parseFloat(rootStyles.getPropertyValue('--font-export-meta')) * rootFontSize;
     const captionFont = rootStyles.getPropertyValue(selectedCaptionStyle.fontToken).trim();
     const dateStamp = includeDate ? formatPhotoDate() : '';
+    const fullCaptionWidth = width - padding * 2;
+    const dateFont = `${selectedCaptionStyle.fontStyle} ${metaFontSize}px ${captionFont}`;
+    let captionMaxWidth = fullCaptionWidth;
+    if (includeDate) {
+      context.font = dateFont;
+      captionMaxWidth = Math.max(1, fullCaptionWidth - context.measureText(dateStamp).width - 16);
+    }
     context.font = `${selectedCaptionStyle.fontStyle} 500 ${stampFontSize}px ${captionFont}`;
     context.textAlign = 'left';
-    const dateWidth = includeDate ? metaFontSize * dateStamp.length * 0.62 : 0;
-    const captionMaxWidth = width - padding * 2 - dateWidth - (includeDate ? 24 : 0);
     if (caption.trim()) context.fillText(caption.trim(), padding, height - 41, captionMaxWidth);
     if (includeDate) {
       context.textAlign = 'right';
-      context.font = `${metaFontSize}px ${monoFont}`;
+      context.font = dateFont;
       context.fillText(dateStamp, width - padding, height - 41);
     }
-    downloadCanvas(canvas, createOutputFilename(singlePhoto ? 'polaroid' : 'strip'));
+    downloadCanvas(canvas, singlePhoto ? 'polaroid' : 'strip');
+  };
+
+  const requestDownload = () => setDownloadNoticeOpen(true);
+
+  const completeDownload = () => {
+    setDownloadNoticeOpen(false);
+    void downloadStrip();
   };
 
   return (
@@ -362,8 +360,6 @@ export default function PhotoBooth() {
               filter={selectedFilter}
               activeIndex={activeIndex}
               onSelectImage={setActiveIndex}
-              border={selectedBorder}
-              edgeEnabled={edgeEnabled}
               background={selectedBackdrop}
               caption={caption}
               includeDate={includeDate}
@@ -395,6 +391,7 @@ export default function PhotoBooth() {
                   id: 'strip',
                   title: boothCopy.stripFormatLabel,
                   detail: boothCopy.stripFormatHint,
+                  mobileDetail: boothCopy.stripFormatMobileHint,
                 },
               ].map((option) => (
                 <button
@@ -410,7 +407,14 @@ export default function PhotoBooth() {
                   </span>
                   <span>
                     <b>{option.title}</b>
-                    <small>{option.detail}</small>
+                    <small>
+                      <span className={option.mobileDetail ? styles.formatHintDesktop : undefined}>
+                        {option.detail}
+                      </span>
+                      {option.mobileDetail && (
+                        <span className={styles.formatHintMobile}>{option.mobileDetail}</span>
+                      )}
+                    </small>
                   </span>
                 </button>
               ))}
@@ -427,7 +431,7 @@ export default function PhotoBooth() {
                 onUpload={handleUpload}
                 uploadError={uploadError}
                 onStartCapture={startCapture}
-                onDownload={downloadStrip}
+                onDownload={requestDownload}
                 downloadLabel={
                   format === 'photo'
                     ? boothCopy.downloadPhotoLabel
@@ -446,10 +450,6 @@ export default function PhotoBooth() {
               )}
               {format !== 'photo' && (
                 <StripCustomization
-                  border={selectedBorder}
-                  onBorderChange={setSelectedBorder}
-                  edgeEnabled={edgeEnabled}
-                  onEdgeEnabledChange={setEdgeEnabled}
                   caption={caption}
                   onCaptionChange={setCaption}
                   includeDate={includeDate}
@@ -467,6 +467,16 @@ export default function PhotoBooth() {
           <span>{boothCopy.footerMeta}</span>
         </footer>
       </div>
+      <DownloadCountdownModal
+        open={downloadNoticeOpen}
+        seconds={boothCopy.downloadCountdownSeconds}
+        title={boothCopy.downloadCountdownTitle}
+        message={boothCopy.downloadCountdownMessage}
+        countdownMessage={boothCopy.downloadCountdownLabel}
+        contributionLabel={boothCopy.downloadContributionLabel}
+        contributionHref={boothCopy.githubRepositoryUrl}
+        onComplete={completeDownload}
+      />
     </main>
   );
 }
@@ -518,6 +528,8 @@ async function downloadBarePhoto(source, filter) {
   canvas.width = image.naturalWidth;
   canvas.height = image.naturalHeight;
   const context = canvas.getContext('2d');
+  context.fillStyle = '#fff';
+  context.fillRect(0, 0, canvas.width, canvas.height);
   context.save();
   context.filter = filter.css;
   context.drawImage(image, 0, 0);
@@ -525,7 +537,7 @@ async function downloadBarePhoto(source, filter) {
   if (filter.grade) applyFilmGrade(context, 0, 0, canvas.width, canvas.height, filter.grade);
   if (filter.grain > 0) addGrain(context, 0, 0, canvas.width, canvas.height, filter.grain, 1);
   if (filter.vignette > 0) addVignette(context, 0, 0, canvas.width, canvas.height, filter.vignette);
-  downloadCanvas(canvas, createOutputFilename('photo'));
+  downloadCanvas(canvas, 'photo');
 }
 
 function loadImage(source) {
@@ -537,19 +549,24 @@ function loadImage(source) {
   });
 }
 
-function downloadCanvas(canvas, filename) {
+function downloadCanvas(
+  canvas,
+  layout,
+  { type = boothCopy.exportMimeType, quality = boothCopy.exportQuality } = {},
+) {
   canvas.toBlob((blob) => {
     if (!blob) return;
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = filename;
+    const extension = blob.type === 'image/jpeg' ? 'jpg' : 'png';
+    link.download = createOutputFilename(layout, extension);
     link.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 1500);
-  }, 'image/png');
+  }, type, quality);
 }
 
-function createOutputFilename(layout) {
+function createOutputFilename(layout, extension) {
   const date = new Date();
   const two = (value) => String(value).padStart(2, '0');
   const three = (value) => String(value).padStart(3, '0');
@@ -559,7 +576,8 @@ function createOutputFilename(layout) {
   return boothCopy.outputFilenameTemplate
     .replace('{layout}', layout)
     .replace('{timestamp}', timestamp)
-    .replace('{unique}', unique);
+    .replace('{unique}', unique)
+    .replace('{extension}', extension);
 }
 
 function withAlpha(hexColor, alpha) {

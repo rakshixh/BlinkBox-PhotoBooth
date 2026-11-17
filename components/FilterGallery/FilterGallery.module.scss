@@ -1,80 +1,14 @@
-@use '../../styles/mixins' as *;
-.section {
+.filterPicker {
   padding-top: 26px;
+  margin-bottom: 24px;
   border-top: 1px solid var(--line);
 }
-.headingRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 16px;
-}
-.headingRow h2 {
-  margin: 0;
-  font: 600 var(--font-heading) var(--serif);
-  letter-spacing: -0.35px;
-}
-.headingRow p {
-  margin: 5px 0 0;
-  color: var(--muted);
-  font-size: var(--font-body-sm);
-}
-.count {
-  color: var(--text-count);
-  font: var(--font-sm) var(--mono);
-  letter-spacing: 0.7px;
-  padding-bottom: 3px;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-}
-.filter {
-  text-align: left;
-  padding: 7px;
-  border: 1px solid transparent;
-  background: transparent;
-  position: relative;
-  cursor: pointer;
-  transition:
-    border 0.2s,
-    background 0.2s;
-  min-width: 0;
-}
-.filter:hover {
-  background: var(--filter-hover);
-}
-.active {
-  border-color: var(--rust);
-  background: var(--filter-active);
-}
-.swatch {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  aspect-ratio: 1.5;
-  margin-bottom: 8px;
-  overflow: hidden;
+.original {
   background:
     radial-gradient(ellipse at 52% 44%, var(--swatch-warm-light) 0 18%, transparent 19%),
-    linear-gradient(
-      145deg,
-      var(--swatch-warm-dark),
-      var(--swatch-warm-mid) 52%,
-      var(--swatch-olive)
-    );
-  color: var(--filter-cream);
-  font: italic var(--font-swatch) var(--serif);
+    linear-gradient(145deg, var(--swatch-warm-dark), var(--swatch-warm-mid) 52%, var(--swatch-olive));
 }
-.swatch span {
-  text-shadow: 0 2px 8px var(--shadow-text);
-}
-.classic-bw {
-  background:
-    radial-gradient(ellipse at 52% 44%, var(--swatch-bw-light) 0 18%, transparent 19%),
-    linear-gradient(145deg, var(--swatch-bw-dark), var(--swatch-bw-mid) 52%, var(--swatch-bw-deep));
-}
+.classic-bw,
 .silver-booth {
   background:
     radial-gradient(ellipse at 52% 44%, var(--swatch-bw-light) 0 18%, transparent 19%),
@@ -93,12 +27,7 @@
 .sepia {
   background:
     radial-gradient(ellipse at 52% 44%, var(--swatch-sepia-light) 0 18%, transparent 19%),
-    linear-gradient(
-      145deg,
-      var(--swatch-sepia-dark),
-      var(--swatch-sepia-mid) 52%,
-      var(--swatch-sepia-deep)
-    );
+    linear-gradient(145deg, var(--swatch-sepia-dark), var(--swatch-sepia-mid) 52%, var(--swatch-sepia-deep));
 }
 .faded-70s {
   background:
@@ -108,85 +37,25 @@
 .flash {
   background:
     radial-gradient(ellipse at 52% 44%, var(--swatch-flash-light) 0 18%, transparent 19%),
-    linear-gradient(
-      145deg,
-      var(--swatch-flash-dark),
-      var(--swatch-flash-mid) 52%,
-      var(--swatch-flash-deep)
-    );
+    linear-gradient(145deg, var(--swatch-flash-dark), var(--swatch-flash-mid) 52%, var(--swatch-flash-deep));
 }
 .vintage-color {
   background:
     radial-gradient(ellipse at 52% 44%, var(--swatch-vintage-light) 0 18%, transparent 19%),
-    linear-gradient(
-      145deg,
-      var(--swatch-vintage-dark),
-      var(--swatch-vintage-mid) 52%,
-      var(--swatch-vintage-deep)
-    );
+    linear-gradient(145deg, var(--swatch-vintage-dark), var(--swatch-vintage-mid) 52%, var(--swatch-vintage-deep));
 }
 .fxn-r {
   background:
     radial-gradient(ellipse at 52% 44%, var(--swatch-warm-light) 0 18%, transparent 19%),
-    linear-gradient(
-      145deg,
-      var(--swatch-olive),
-      var(--swatch-warm-mid) 52%,
-      var(--swatch-soft-dark)
-    );
+    linear-gradient(145deg, var(--swatch-olive), var(--swatch-warm-mid) 52%, var(--swatch-soft-dark));
 }
 .classic-u {
   background:
     radial-gradient(ellipse at 52% 44%, var(--swatch-sepia-light) 0 18%, transparent 19%),
-    linear-gradient(
-      145deg,
-      var(--swatch-sepia-dark),
-      var(--swatch-70-mid) 52%,
-      var(--swatch-70-deep)
-    );
+    linear-gradient(145deg, var(--swatch-sepia-dark), var(--swatch-70-mid) 52%, var(--swatch-70-deep));
 }
 .s67-fc100 {
   background:
     radial-gradient(ellipse at 52% 44%, var(--swatch-flash-light) 0 18%, transparent 19%),
-    linear-gradient(
-      145deg,
-      var(--swatch-flash-dark),
-      var(--swatch-vintage-light) 52%,
-      var(--swatch-bw-deep)
-    );
-}
-.filterName,
-.filterNote {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.filterName {
-  font-size: var(--font-md);
-  font-weight: 600;
-}
-.filterNote {
-  margin-top: 3px;
-  color: var(--muted);
-  font: var(--font-sm) var(--serif);
-  font-style: italic;
-}
-.check {
-  position: absolute;
-  top: 11px;
-  right: 11px;
-  width: 16px;
-  height: 16px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--rust);
-  color: var(--white);
-  font-size: var(--font-md);
-}
-@include respond(small) {
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+    linear-gradient(145deg, var(--swatch-flash-dark), var(--swatch-vintage-light) 52%, var(--swatch-bw-deep));
 }

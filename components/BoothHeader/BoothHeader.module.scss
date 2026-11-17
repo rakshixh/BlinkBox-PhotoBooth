@@ -2,7 +2,7 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   min-height: 76px;
   border-bottom: 1px solid var(--line);
   position: relative;
@@ -27,6 +27,30 @@
 .period {
   color: var(--rust);
   margin-left: -9px;
+}
+.githubButton {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  background: var(--cream);
+  color: var(--ink);
+  text-decoration: none;
+  font: 600 var(--font-body-sm) var(--sans);
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.githubButton:hover,
+.githubButton:focus-visible {
+  border-color: var(--rust);
+  background: var(--paper-upload);
+}
+.githubButton svg {
+  display: block;
 }
 @include respond(mobile) {
   .header {
