@@ -1,0 +1,19 @@
+@mixin respond($size) {
+  @if $size == tablet {
+    @media (max-width: 53.75rem) {
+      @content;
+    }
+  } @else if $size == mobile {
+    @media (max-width: 43.75rem) {
+      @content;
+    }
+  } @else if $size == small {
+    @media (max-width: 31.25rem) {
+      @content;
+    }
+  } @else if $size == narrow {
+    @media (max-width: 24.375rem) {
+      @content;
+    }
+  }
+}
