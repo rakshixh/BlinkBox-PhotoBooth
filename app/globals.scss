@@ -1,0 +1,26 @@
+@use "../styles/tokens";
+
+* {
+  box-sizing: border-box;
+}
+html {
+  min-height: 100%;
+  background: var(--paper);
+}
+body {
+  margin: 0;
+  color: var(--ink);
+  background: var(--paper);
+  font-family: var(--sans);
+}
+button,
+input {
+  font: inherit;
+}
+button {
+  color: inherit;
+}
+::selection {
+  color: var(--white);
+  background: var(--rust);
+}
