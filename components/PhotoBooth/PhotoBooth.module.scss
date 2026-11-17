@@ -1,0 +1,214 @@
+@use "../../styles/mixins" as *;
+.page {
+  min-height: 100vh;
+  padding: 0 34px;
+  background: radial-gradient(ellipse at 50% 0, var(--paper-glow) 0, var(--paper) 65%);
+}
+.shell {
+  width: min(100%, 1090px);
+  margin: 0 auto;
+}
+.intro {
+  min-height: 219px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 12rem;
+  grid-template-rows: auto auto auto;
+  align-items: center;
+  column-gap: 2rem;
+  row-gap: 0.5rem;
+  padding: 30px 2px 27px;
+}
+.introCopy {
+  display: contents;
+}
+.eyebrow {
+  grid-column: 1;
+  grid-row: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--rust);
+  font: var(--font-sm) var(--mono);
+  letter-spacing: 1.25px;
+}
+.eyebrow i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rust);
+}
+.intro h1 {
+  grid-column: 1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0 7px;
+  font: 600 var(--font-display)/0.98 var(--serif);
+  letter-spacing: -1.8px;
+}
+.intro h1 span:last-child {
+  color: var(--rust);
+  font-style: italic;
+}
+.intro p {
+  grid-column: 1;
+  grid-row: 3;
+  max-width: 395px;
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--font-body);
+  line-height: 1.55;
+}
+.artifactSlot {
+  display: flex;
+  grid-column: 2;
+  grid-row: 1 / 4;
+  align-items: center;
+  justify-content: center;
+  width: 12rem;
+  min-height: 11rem;
+}
+.booth {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.88fr) minmax(420px, 1.12fr);
+  gap: 48px;
+  align-items: start;
+  padding: 24px 30px 29px;
+  border: 1px solid var(--paper-booth-border);
+  background: var(--paper-panel);
+  box-shadow: 0 14px 40px var(--shadow-card);
+}
+.previewColumn {
+  display: flex;
+  justify-content: center;
+  padding: 2px 0 0;
+}
+.editorColumn {
+  min-width: 0;
+  padding-top: 1px;
+}
+.customizeTrigger {
+  display: flex;
+  width: 100%;
+  min-height: 62px;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 0;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  background: var(--cream);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.customizeTrigger:hover {
+  border-color: var(--rust);
+  background: var(--paper-upload);
+}
+.customizeIcon {
+  display: grid;
+  width: 35px;
+  height: 35px;
+  flex: 0 0 35px;
+  place-items: center;
+}
+.customizeTrigger b,
+.customizeTrigger small {
+  display: block;
+}
+.customizeTrigger b {
+  color: var(--ink);
+  font: 600 var(--font-body) var(--serif);
+}
+.customizeTrigger small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: var(--font-xs);
+}
+.customizeArrow {
+  margin-left: auto;
+  color: var(--rust);
+  font-size: var(--font-body-lg);
+}
+.footer {
+  min-height: 63px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-footer-muted);
+  font: var(--font-xs) var(--mono);
+  letter-spacing: 0.55px;
+}
+.footer span:first-child {
+  font: italic var(--font-body-lg) var(--serif);
+  letter-spacing: 0;
+}
+@include respond(tablet) {
+  .booth {
+    grid-template-columns: minmax(240px, 0.8fr) minmax(360px, 1.2fr);
+    gap: 28px;
+    padding: 22px;
+  }
+}
+@include respond(mobile) {
+  .page {
+    padding: 0 17px;
+  }
+  .intro {
+    min-height: auto;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    align-items: start;
+    row-gap: 0.5rem;
+    padding: 35px 2px 25px;
+  }
+  .introCopy {
+    display: contents;
+  }
+  .eyebrow {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .artifactSlot {
+    display: none;
+  }
+  .intro h1 {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .intro p {
+    grid-column: 1;
+    grid-row: 3;
+    max-width: none;
+  }
+  .intro h1 {
+    font-size: var(--font-display-mobile);
+  }
+  .booth {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 18px;
+  }
+  .previewColumn {
+    order: 0;
+  }
+  .editorColumn {
+    order: 1;
+  }
+  .footer {
+    gap: 15px;
+    padding: 14px 0;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+@include respond(narrow) {
+  .page {
+    padding: 0 12px;
+  }
+  .booth {
+    padding: 14px;
+  }
+}
