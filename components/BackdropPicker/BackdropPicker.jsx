@@ -6,28 +6,10 @@ import styles from "./BackdropPicker.module.scss";
 export default function BackdropPicker({
   selected,
   onSelect,
-  enabled,
-  onEnabledChange,
-  singlePhoto,
 }) {
   return (
     <section className={styles.section} aria-label={boothCopy.activeBackgroundLabel}>
-      <label className={styles.toggle}>
-        <input
-          type="checkbox"
-          checked={enabled}
-          onChange={(event) => onEnabledChange(event.target.checked)}
-        />
-        <span className={styles.checkmark} aria-hidden="true" />
-        <span className={styles.toggleCopy}>
-          <b>{boothCopy.backgroundToggleLabel}</b>
-          <small>
-            {singlePhoto ? boothCopy.backgroundSinglePhotoHint : boothCopy.backgroundStripHint}
-          </small>
-        </span>
-      </label>
-
-      <div className={`${styles.groups} ${!enabled ? styles.disabled : ""}`}>
+      <div className={styles.groups}>
         {backgroundGroups.map((group) => (
           <section className={styles.group} key={group.id} aria-label={boothCopy[group.label]}>
             <h3>{boothCopy[group.label]}</h3>
@@ -40,7 +22,6 @@ export default function BackdropPicker({
                     key={background.id}
                     className={`${styles.option} ${selected.id === background.id ? styles.selected : ""}`}
                     aria-pressed={selected.id === background.id}
-                    disabled={!enabled}
                     onClick={() => onSelect(background)}
                   >
                     <span

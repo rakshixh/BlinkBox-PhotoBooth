@@ -3,7 +3,7 @@
   width: 100%;
 }
 .sourceTabs {
-  height: 40px;
+  height: 34px;
   display: flex;
   gap: 22px;
   border-bottom: 1px solid var(--line);
@@ -11,17 +11,30 @@
 }
 .sourceTabs button {
   position: relative;
-  padding: 0 2px 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 2px 5px;
   border: 0;
   color: var(--text-label);
   background: transparent;
   cursor: pointer;
-  font: var(--font-sm) var(--mono);
-  letter-spacing: 0.7px;
+  font: 600 var(--font-body-sm) var(--sans);
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
 }
 .sourceTabs button span {
-  margin-right: 7px;
-  font-size: var(--font-body-lg);
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  align-items: center;
+  justify-content: center;
+}
+.sourceTabs button span svg {
+  display: block;
 }
 .sourceTabs .activeTab {
   color: var(--ink);
@@ -207,30 +220,48 @@
 }
 .lowerRow {
   display: flex;
+  width: 100%;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
   margin-top: 17px;
 }
 .privacy {
+  display: flex;
+  max-width: 100%;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 7px;
+  justify-content: center;
   color: var(--text-label);
-  font: var(--font-xs) var(--mono);
-  letter-spacing: 0.3px;
+  font: var(--font-md) var(--sans);
+  line-height: 1.4;
 }
-.privacy span {
-  margin-right: 5px;
+.privacyIcon {
+  display: inline-flex;
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
   color: var(--status-green);
-  font-size: var(--font-xs);
 }
 .download {
+  display: inline-flex;
+  width: 100%;
   min-height: 43px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   padding: 0 14px;
   border: 1px solid var(--ink);
   background: var(--ink);
   color: var(--white-soft);
   cursor: pointer;
-  font: var(--font-sm) var(--mono);
-  letter-spacing: 0.4px;
+  font: 600 var(--font-body-sm) var(--sans);
+  letter-spacing: 0;
+  white-space: nowrap;
   transition: all 0.2s;
 }
 .download:hover:not(:disabled) {
@@ -243,9 +274,13 @@
   color: var(--disabled-text);
   cursor: not-allowed;
 }
-.download span {
-  margin-right: 8px;
-  font-size: var(--font-body-lg);
+.downloadIcon {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  align-items: center;
+  justify-content: center;
 }
 @include respond(small) {
   .lowerRow {
@@ -256,6 +291,16 @@
     width: 100%;
   }
   .privacy {
-    text-align: center;
+    max-width: 100%;
+  }
+}
+@include respond(mobile) {
+  .lowerRow {
+    position: sticky;
+    bottom: env(safe-area-inset-bottom, 0px);
+    z-index: 5;
+    padding: 9px;
+    background: var(--paper);
+    box-shadow: 0 -4px 12px var(--shadow-card);
   }
 }

@@ -6,27 +6,28 @@ import { formatPhotoDate } from "@/lib/formatPhotoDate";
 
 export default function StripPreview({
   images,
+  format,
   filter,
   activeIndex,
   onSelectImage,
   border,
+  edgeEnabled,
   background,
-  backgroundEnabled,
   caption,
   includeDate,
   captionStyle,
 }) {
   const cssFilter = filter?.css ?? "none";
-  const singlePhoto = images.length === 1;
-  const barePhoto = singlePhoto && !backgroundEnabled;
+  const singlePhoto = format !== "strip";
+  const barePhoto = format === "photo";
   const previewSettings = singlePhoto ? stripSettings.polaroid : stripSettings;
-  const frameCount = images.length || stripSettings.frameCount;
+  const frameCount = images.length || (format === "strip" ? stripSettings.frameCount : 1);
 
   return (
     <div className={styles.previewArea}>
       <div className={styles.stageLabel}>
-        <span>{singlePhoto ? boothCopy.polaroidLabel : boothCopy.stripLabel}</span>
-        <span>{singlePhoto ? boothCopy.polaroidSequence : boothCopy.stripSequence}</span>
+        <span>{format === "photo" ? boothCopy.photoLabel : singlePhoto ? boothCopy.polaroidLabel : boothCopy.stripLabel}</span>
+        <span>{format === "photo" ? boothCopy.photoSequence : singlePhoto ? boothCopy.polaroidSequence : boothCopy.stripSequence}</span>
       </div>
       {barePhoto ? (
         <div className={styles.barePhoto}>
@@ -39,7 +40,7 @@ export default function StripPreview({
               "--photo-vignette-full": `${(filter?.vignette ?? 0) * 100}%`,
             }}
           >
-            <img src={images[0]} alt={`${boothCopy.photoAltPrefix} 1`} />
+            {images[0] ? <img src={images[0]} alt={`${boothCopy.photoAltPrefix} 1`} /> : <span className={styles.emptyPhoto}>{boothCopy.choosePhotoHint}</span>}
             {filter?.grade && (
               <span className={`${styles.gradeOverlay} ${styles[filter.grade] ?? ""}`} />
             )}
@@ -48,7 +49,7 @@ export default function StripPreview({
       ) : (
         <div className={`${styles.paperWrap} ${singlePhoto ? styles.polaroidWrap : ""}`}>
           <div
-            className={`${styles.paper} ${styles[border.id] ?? ""} ${backgroundEnabled ? (styles[background.id] ?? "") : styles.plainPaper} ${singlePhoto ? styles.polaroid : ""}`}
+            className={`${styles.paper} ${edgeEnabled ? styles[border.id] ?? "" : ""} ${styles[background.id] ?? ""} ${singlePhoto ? styles.polaroid : ""}`}
             style={{
               "--photo-ratio": `${previewSettings.width - previewSettings.padding * 2} / ${previewSettings.photoHeight}`,
               "--photo-grain": filter?.grain ?? 0,
@@ -88,12 +89,10 @@ export default function StripPreview({
                 </button>
               );
             })}
-            {(!singlePhoto || backgroundEnabled) && (
+            {format !== "photo" && (
               <div className={styles.paperFooter}>
                 <span
-                  className={
-                    captionStyle.id === "serif" ? styles.captionSerif : styles.captionStamp
-                  }
+                  className={styles[`caption-${captionStyle.id}`] ?? styles.captionStamp}
                 >
                   {caption}
                 </span>
@@ -105,10 +104,10 @@ export default function StripPreview({
       )}
       <p className={styles.previewHint}>
         {barePhoto
-          ? boothCopy.barePhotoHint
+          ? images.length ? boothCopy.barePhotoHint : boothCopy.choosePhotoHint
           : images.length
             ? boothCopy.frameSelectHint
-            : boothCopy.stripPreviewHint}
+            : singlePhoto ? boothCopy.polaroidPreviewHint : boothCopy.stripPreviewHint}
       </p>
     </div>
   );

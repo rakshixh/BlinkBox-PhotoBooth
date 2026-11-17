@@ -269,13 +269,32 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.paperFooter .captionSerif {
+.paperFooter .caption-serif {
   font: italic var(--font-body-sm) var(--serif);
   letter-spacing: 0;
 }
-.paperFooter .captionStamp {
+.paperFooter .caption-stamp {
   font: var(--font-xs) var(--mono);
   letter-spacing: 0.7px;
+}
+.paperFooter .caption-typewriter {
+  font: var(--font-xs) var(--typewriter);
+  letter-spacing: 0.35px;
+}
+.paperFooter .caption-bookman {
+  font: var(--font-body-sm) var(--bookman);
+  letter-spacing: 0;
+}
+.emptyPhoto {
+  display: grid;
+  min-width: 220px;
+  min-height: 220px;
+  place-items: center;
+  padding: 24px;
+  color: var(--muted);
+  background: var(--paper-placeholder);
+  font: italic var(--font-body) var(--serif);
+  text-align: center;
 }
 .previewHint {
   margin: 15px 0 0;

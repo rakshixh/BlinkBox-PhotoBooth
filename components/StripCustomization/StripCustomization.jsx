@@ -6,6 +6,8 @@ import { borderStyles, boothCopy, captionStyles } from "@/data/data";
 export default function StripCustomization({
   border,
   onBorderChange,
+  edgeEnabled,
+  onEdgeEnabledChange,
   caption,
   onCaptionChange,
   includeDate,
@@ -22,8 +24,13 @@ export default function StripCustomization({
         </div>
       </div>
 
-      <fieldset className={styles.fieldset}>
-        <legend>{boothCopy.borderFieldLabel}</legend>
+      <label className={styles.edgeToggle}>
+        <input type="checkbox" checked={edgeEnabled} onChange={(event) => onEdgeEnabledChange(event.target.checked)} />
+        <span className={styles.switch} aria-hidden="true" />
+        <span>{boothCopy.borderFieldLabel}</span>
+      </label>
+      {edgeEnabled && <fieldset className={styles.fieldset}>
+        <legend>{boothCopy.edgeStyleLabel}</legend>
         <div className={styles.borderGrid}>
           {borderStyles.map((option) => (
             <button
@@ -44,7 +51,7 @@ export default function StripCustomization({
             </button>
           ))}
         </div>
-      </fieldset>
+      </fieldset>}
 
       <div className={styles.captionField}>
         <label htmlFor="strip-caption">{boothCopy.captionHeading}</label>
@@ -84,6 +91,7 @@ export default function StripCustomization({
                 key={option.id}
                 onClick={() => onCaptionStyleChange(option)}
                 aria-pressed={captionStyle.id === option.id}
+                style={{ fontFamily: `var(${option.fontToken})`, fontStyle: option.fontStyle }}
               >
                 {option.name}
               </button>

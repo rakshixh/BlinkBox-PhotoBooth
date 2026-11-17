@@ -2,57 +2,6 @@
   display: grid;
   gap: 20px;
 }
-.toggle {
-  display: flex;
-  align-items: flex-start;
-  gap: 11px;
-  padding: 15px;
-  border: 1px solid var(--line);
-  background: var(--paper-upload);
-  cursor: pointer;
-}
-.toggle input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-}
-.checkmark {
-  display: grid;
-  width: 17px;
-  height: 17px;
-  flex: 0 0 17px;
-  place-items: center;
-  border: 1px solid var(--border-soft);
-  background: var(--cream);
-}
-.toggle input:checked + .checkmark {
-  border-color: var(--rust);
-  background: var(--rust);
-}
-.toggle input:checked + .checkmark::after {
-  color: var(--white);
-  content: "✓";
-  font-size: var(--font-sm);
-}
-.toggle input:focus-visible + .checkmark {
-  outline: 2px solid var(--rust);
-  outline-offset: 2px;
-}
-.toggleCopy b,
-.toggleCopy small {
-  display: block;
-}
-.toggleCopy b {
-  font-size: var(--font-body);
-}
-.toggleCopy small {
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: var(--font-body-sm);
-  line-height: 1.45;
-}
 .groups {
   display: grid;
   gap: 22px;
@@ -68,9 +17,6 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 11px;
-}
-.disabled {
-  opacity: 0.48;
 }
 .option {
   min-width: 0;

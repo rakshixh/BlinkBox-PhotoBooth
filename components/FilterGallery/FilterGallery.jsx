@@ -2,6 +2,7 @@
 
 import styles from "./FilterGallery.module.scss";
 import { boothCopy, filters } from "@/data/data";
+import Icon from "@/components/Icon/Icon";
 
 export default function FilterGallery({ selected, onSelect }) {
   return (
@@ -31,7 +32,7 @@ export default function FilterGallery({ selected, onSelect }) {
             <span className={styles.filterNote}>{filter.note}</span>
             {selected.id === filter.id && (
               <span className={styles.check} aria-hidden="true">
-                ✓
+                <Icon name="check" size={14} />
               </span>
             )}
           </button>

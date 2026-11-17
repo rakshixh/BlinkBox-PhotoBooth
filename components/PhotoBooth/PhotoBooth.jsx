@@ -3,10 +3,12 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import BoothHeader from "@/components/BoothHeader/BoothHeader";
 import BoothArtifact from "@/components/BoothArtifact/BoothArtifact";
-import BrandMark from "@/components/BrandMark/BrandMark";
 import StripPreview from "@/components/StripPreview/StripPreview";
 import CaptureControls from "@/components/CaptureControls/CaptureControls";
-import CustomizePanel from "@/components/CustomizePanel/CustomizePanel";
+import BackdropPicker from "@/components/BackdropPicker/BackdropPicker";
+import FilterGallery from "@/components/FilterGallery/FilterGallery";
+import StripCustomization from "@/components/StripCustomization/StripCustomization";
+import Icon from "@/components/Icon/Icon";
 import styles from "./PhotoBooth.module.scss";
 import {
   backgrounds,
@@ -21,14 +23,16 @@ import { formatPhotoDate } from "@/lib/formatPhotoDate";
 const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
 
 export default function PhotoBooth() {
+  const [format, setFormat] = useState("strip");
   const [mode, setMode] = useState("upload");
   const [images, setImages] = useState([]);
   const [activeIndex, setActiveIndex] = useState(null);
   const [selectedFilter, setSelectedFilter] = useState(filters[0]);
-  const [selectedBackdrop, setSelectedBackdrop] = useState(backgrounds[0]);
-  const [backgroundEnabled, setBackgroundEnabled] = useState(true);
-  const [customizeOpen, setCustomizeOpen] = useState(false);
+  const [selectedBackdrop, setSelectedBackdrop] = useState(
+    backgrounds.find((background) => background.id === "paper-classic"),
+  );
   const [selectedBorder, setSelectedBorder] = useState(borderStyles[0]);
+  const [edgeEnabled, setEdgeEnabled] = useState(false);
   const [caption, setCaption] = useState(boothCopy.defaultCaption);
   const [includeDate, setIncludeDate] = useState(true);
   const [selectedCaptionStyle, setSelectedCaptionStyle] = useState(captionStyles[0]);
@@ -63,7 +67,15 @@ export default function PhotoBooth() {
     streamRef.current = null;
     setCameraReady(false);
   }, []);
-  const closeCustomize = useCallback(() => setCustomizeOpen(false), []);
+  const changeFormat = (nextFormat) => {
+    if (nextFormat === format) return;
+    setFormat(nextFormat);
+    setImages([]);
+    releaseUnusedImages([]);
+    setActiveIndex(null);
+    setUploadError("");
+    setCameraError("");
+  };
 
   const changeMode = async (nextMode) => {
     const requestId = ++cameraRequestRef.current;
@@ -109,6 +121,42 @@ export default function PhotoBooth() {
     [],
   );
 
+  useEffect(() => {
+    if (!("serviceWorker" in navigator)) return;
+
+    if (process.env.NODE_ENV !== "production") {
+      navigator.serviceWorker.getRegistrations().then((registrations) => {
+        const workerUrl = new URL("/service-worker.js", location.origin).href;
+        registrations
+          .filter((registration) =>
+            [registration.active, registration.waiting, registration.installing].some(
+              (worker) => worker?.scriptURL === workerUrl,
+            ),
+          )
+          .forEach((registration) => registration.unregister());
+      });
+      caches.keys().then((keys) =>
+        Promise.all(
+          keys
+            .filter((key) => key.startsWith("blinkbox-shell-"))
+            .map((key) => caches.delete(key)),
+        ),
+      );
+      return;
+    }
+
+    navigator.serviceWorker.register("/service-worker.js").then(() =>
+      navigator.serviceWorker.ready.then((registration) => {
+        const assets = performance
+          .getEntriesByType("resource")
+          .map((entry) => new URL(entry.name))
+          .filter((url) => url.origin === location.origin && url.pathname.startsWith("/_next/static/"))
+          .map((url) => url.href);
+        registration.active?.postMessage({ type: "CACHE_APP_ASSETS", assets });
+      }),
+    ).catch(() => {});
+  }, []);
+
   const handleUpload = (event) => {
     const files = Array.from(event.currentTarget.files ?? []);
     event.currentTarget.value = "";
@@ -119,13 +167,9 @@ export default function PhotoBooth() {
       return;
     }
 
-    const isReplacingSingleFrame =
-      files.length === 1 && activeIndex !== null && images.length === stripSettings.frameCount;
-    if (
-      !isReplacingSingleFrame &&
-      files.length !== 1 &&
-      files.length !== stripSettings.frameCount
-    ) {
+    const frameCount = format === "strip" ? stripSettings.frameCount : 1;
+    const isReplacingSingleFrame = format === "strip" && files.length === 1 && activeIndex !== null && images.length === frameCount;
+    if (!isReplacingSingleFrame && files.length !== frameCount) {
       setUploadError(boothCopy.uploadCountError);
       return;
     }
@@ -160,7 +204,8 @@ export default function PhotoBooth() {
     setBusy(true);
     const captured = [];
     try {
-      for (let photo = 0; photo < stripSettings.frameCount; photo += 1) {
+      const frameCount = format === "strip" ? stripSettings.frameCount : 1;
+      for (let photo = 0; photo < frameCount; photo += 1) {
         for (let number = 3; number > 0; number -= 1) {
           setCountdown(number);
           await wait(850);
@@ -169,7 +214,7 @@ export default function PhotoBooth() {
         await wait(220);
         captured.push(await captureFrame());
         setCountdown(null);
-        if (photo < stripSettings.frameCount - 1) await wait(650);
+        if (photo < frameCount - 1) await wait(650);
       }
       setImages(captured);
       releaseUnusedImages(captured);
@@ -185,25 +230,22 @@ export default function PhotoBooth() {
 
   const downloadStrip = async () => {
     if (images.length === 0) return;
-    if (images.length === 1 && !backgroundEnabled) {
+    if (format === "photo") {
       await downloadBarePhoto(images[0], selectedFilter);
       return;
     }
     const canvas = document.createElement("canvas");
-    const singlePhoto = images.length === 1;
+    const singlePhoto = format === "polaroid";
     const settings = singlePhoto ? stripSettings.polaroid : stripSettings;
     const { width, height, padding, gap = 0, photoHeight } = settings;
     canvas.width = width;
     canvas.height = height;
     const context = canvas.getContext("2d");
     const rootStyles = getComputedStyle(document.documentElement);
-    const paperBackgroundToken = backgroundEnabled
-      ? selectedBackdrop.baseToken
-      : "--strip-clean-paper";
+    const paperBackgroundToken = selectedBackdrop.baseToken;
     context.fillStyle = rootStyles.getPropertyValue(paperBackgroundToken).trim();
     context.fillRect(0, 0, width, height);
-    if (backgroundEnabled)
-      drawBackdropPattern(context, selectedBackdrop, rootStyles, width, height);
+    drawBackdropPattern(context, selectedBackdrop, rootStyles, width, height);
     const photoWidth = width - padding * 2;
 
     for (let index = 0; index < images.length; index += 1) {
@@ -243,17 +285,19 @@ export default function PhotoBooth() {
         addGrain(context, x, y, photoWidth, photoHeight, selectedFilter.grain, index + 1);
       if (selectedFilter.vignette > 0)
         addVignette(context, x, y, photoWidth, photoHeight, selectedFilter.vignette, rootStyles);
-      context.strokeStyle = rootStyles.getPropertyValue(selectedBorder.edgeToken).trim();
-      context.lineWidth = selectedBorder.edgeWidth;
-      context.strokeRect(
-        x + context.lineWidth / 2,
-        y + context.lineWidth / 2,
-        photoWidth - context.lineWidth,
-        photoHeight - context.lineWidth,
-      );
+      if (edgeEnabled) {
+        context.strokeStyle = rootStyles.getPropertyValue(selectedBorder.edgeToken).trim();
+        context.lineWidth = selectedBorder.edgeWidth;
+        context.strokeRect(
+          x + context.lineWidth / 2,
+          y + context.lineWidth / 2,
+          photoWidth - context.lineWidth,
+          photoHeight - context.lineWidth,
+        );
+      }
     }
 
-    const paperInkToken = backgroundEnabled ? selectedBackdrop.inkToken : "--strip-classic-ink";
+    const paperInkToken = selectedBackdrop.inkToken;
     context.fillStyle = rootStyles.getPropertyValue(paperInkToken).trim();
     context.textBaseline = "middle";
     const rootFontSize = Number.parseFloat(rootStyles.fontSize);
@@ -302,54 +346,76 @@ export default function PhotoBooth() {
         <section className={styles.booth} aria-label={boothCopy.boothSectionLabel}>
           <div className={styles.previewColumn}>
             <StripPreview
+              format={format}
               images={images}
               filter={selectedFilter}
               activeIndex={activeIndex}
               onSelectImage={setActiveIndex}
               border={selectedBorder}
+              edgeEnabled={edgeEnabled}
               background={selectedBackdrop}
-              backgroundEnabled={backgroundEnabled}
               caption={caption}
               includeDate={includeDate}
               captionStyle={selectedCaptionStyle}
             />
           </div>
           <div className={styles.editorColumn}>
-            <CaptureControls
-              mode={mode}
-              setMode={changeMode}
-              videoRef={videoRef}
-              cameraReady={cameraReady}
-              busy={busy}
-              countdown={countdown}
-              onUpload={handleUpload}
-              uploadError={uploadError}
-              onStartCapture={startCapture}
-              onDownload={downloadStrip}
-              downloadLabel={
-                images.length === 1
-                  ? backgroundEnabled
-                    ? boothCopy.downloadPolaroidLabel
-                    : boothCopy.downloadPhotoLabel
-                  : boothCopy.downloadLabel
-              }
-              canDownload={images.length === 1 || images.length === stripSettings.frameCount}
-              cameraError={cameraError}
-            />
-            <button
-              className={styles.customizeTrigger}
-              type="button"
-              onClick={() => setCustomizeOpen(true)}
-            >
-              <span className={styles.customizeIcon} aria-hidden="true">
-                <BrandMark />
-              </span>
-              <span>
-                <b>{boothCopy.customizeButtonLabel}</b>
-                <small>{boothCopy.customizeSummaryLabel}</small>
-              </span>
-              <span className={styles.customizeArrow}>↗</span>
-            </button>
+            <div className={styles.editorIntro}>
+              <h2>{boothCopy.editorHeading}</h2>
+              <p>{boothCopy.editorHint}</p>
+            </div>
+            <div className={styles.formatPicker} role="group" aria-label={boothCopy.formatPickerLabel}>
+              {[
+                { id: "photo", title: boothCopy.singleFormatLabel, detail: boothCopy.singleFormatHint },
+                { id: "polaroid", title: boothCopy.polaroidFormatLabel, detail: boothCopy.polaroidFormatHint },
+                { id: "strip", title: boothCopy.stripFormatLabel, detail: boothCopy.stripFormatHint },
+              ].map((option) => (
+                <button key={option.id} type="button" disabled={busy} aria-pressed={format === option.id} className={format === option.id ? styles.selectedFormat : ""} onClick={() => changeFormat(option.id)}>
+                  <span className={styles.formatMark}><Icon name={option.id} size={22} /></span>
+                  <span><b>{option.title}</b><small>{option.detail}</small></span>
+                </button>
+              ))}
+            </div>
+            <div className={styles.sourceEditor}>
+              <CaptureControls
+                mode={mode}
+                setMode={changeMode}
+                format={format}
+                videoRef={videoRef}
+                cameraReady={cameraReady}
+                busy={busy}
+                countdown={countdown}
+                onUpload={handleUpload}
+                uploadError={uploadError}
+                onStartCapture={startCapture}
+                onDownload={downloadStrip}
+                downloadLabel={
+                  format === "photo"
+                    ? boothCopy.downloadPhotoLabel
+                    : format === "polaroid"
+                      ? boothCopy.downloadPolaroidLabel
+                      : boothCopy.downloadLabel
+                }
+                canDownload={images.length === (format === "strip" ? stripSettings.frameCount : 1)}
+                cameraError={cameraError}
+              />
+            </div>
+            <div className={styles.liveEditor}>
+              <FilterGallery selected={selectedFilter} onSelect={setSelectedFilter} />
+              {format !== "photo" && <BackdropPicker selected={selectedBackdrop} onSelect={setSelectedBackdrop} />}
+              {format !== "photo" && <StripCustomization
+                border={selectedBorder}
+                onBorderChange={setSelectedBorder}
+                edgeEnabled={edgeEnabled}
+                onEdgeEnabledChange={setEdgeEnabled}
+                caption={caption}
+                onCaptionChange={setCaption}
+                includeDate={includeDate}
+                onIncludeDateChange={setIncludeDate}
+                captionStyle={selectedCaptionStyle}
+                onCaptionStyleChange={setSelectedCaptionStyle}
+              />}
+            </div>
           </div>
         </section>
 
@@ -358,25 +424,6 @@ export default function PhotoBooth() {
           <span>{boothCopy.footerMeta}</span>
         </footer>
       </div>
-      <CustomizePanel
-        open={customizeOpen}
-        onClose={closeCustomize}
-        selectedBackdrop={selectedBackdrop}
-        onBackdropChange={setSelectedBackdrop}
-        backgroundEnabled={backgroundEnabled}
-        onBackgroundEnabledChange={setBackgroundEnabled}
-        selectedFilter={selectedFilter}
-        onFilterChange={setSelectedFilter}
-        border={selectedBorder}
-        onBorderChange={setSelectedBorder}
-        caption={caption}
-        onCaptionChange={setCaption}
-        includeDate={includeDate}
-        onIncludeDateChange={setIncludeDate}
-        captionStyle={selectedCaptionStyle}
-        onCaptionStyleChange={setSelectedCaptionStyle}
-        singlePhoto={images.length === 1}
-      />
     </main>
   );
 }

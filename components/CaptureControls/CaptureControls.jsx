@@ -1,11 +1,13 @@
 "use client";
 
 import styles from "./CaptureControls.module.scss";
-import { boothCopy, icons } from "@/data/data";
+import { boothCopy } from "@/data/data";
+import Icon from "@/components/Icon/Icon";
 
 export default function CaptureControls({
   mode,
   setMode,
+  format,
   videoRef,
   cameraReady,
   busy,
@@ -28,7 +30,7 @@ export default function CaptureControls({
           className={mode === "upload" ? styles.activeTab : ""}
           onClick={() => setMode("upload")}
         >
-          <span>{icons.upload}</span> {boothCopy.uploadTabLabel}
+          <span><Icon name="upload" /></span> {format === "strip" ? boothCopy.uploadThreePhotosLabel : boothCopy.uploadTabLabel}
         </button>
         <button
           type="button"
@@ -37,20 +39,20 @@ export default function CaptureControls({
           className={mode === "camera" ? styles.activeTab : ""}
           onClick={() => setMode("camera")}
         >
-          <span>{icons.camera}</span> {boothCopy.cameraTabLabel}
+          <span><Icon name="camera" /></span> {format === "strip" ? boothCopy.cameraThreePhotosLabel : boothCopy.cameraSinglePhotoLabel}
         </button>
       </div>
 
       {mode === "upload" ? (
         <label className={styles.uploadBox}>
-          <input type="file" accept="image/*" multiple onChange={onUpload} />
-          <span className={styles.uploadIcon}>{icons.upload}</span>
-          <span className={styles.uploadTitle}>{boothCopy.uploadLabel}</span>
+          <input type="file" accept="image/*" multiple={format === "strip"} onChange={onUpload} />
+          <span className={styles.uploadIcon}><Icon name="upload" size={23} /></span>
+          <span className={styles.uploadTitle}>{format === "strip" ? boothCopy.uploadStripLabel : boothCopy.uploadSingleLabel}</span>
           <span className={styles.uploadHint} id="upload-help">
-            {boothCopy.uploadHint}
+            {format === "strip" ? boothCopy.uploadHintStrip : boothCopy.uploadHintSingle}
           </span>
           <span className={styles.fileTypes} id="upload-formats">
-            {boothCopy.fileTypes}
+            {format === "strip" ? boothCopy.fileTypesStrip : boothCopy.fileTypesSingle}
           </span>
           {uploadError && (
             <span className={styles.uploadError} id="upload-error" role="alert">
@@ -70,17 +72,17 @@ export default function CaptureControls({
             />
             {!cameraReady && (
               <div className={styles.cameraPlaceholder}>
-                <span>{icons.camera}</span>
+                <span><Icon name="camera" size={34} /></span>
                 <b>{boothCopy.cameraPreviewTitle}</b>
                 <small>{boothCopy.cameraPermissionHint}</small>
               </div>
             )}
             {countdown !== null && (
-              <div className={styles.countdown}>{countdown === 0 ? icons.sparkle : countdown}</div>
+              <div className={styles.countdown}>{countdown === 0 ? <Icon name="check" size={42} /> : countdown}</div>
             )}
             {cameraError && <div className={styles.cameraError}>{cameraError}</div>}
           </div>
-          <p>{boothCopy.cameraHint}</p>
+          <p>{format === "strip" ? boothCopy.cameraHint : boothCopy.cameraSingleHint}</p>
           <button
             className={styles.captureButton}
             type="button"
@@ -92,24 +94,25 @@ export default function CaptureControls({
               ? boothCopy.cameraBusyLabel
               : canDownload
                 ? boothCopy.retakeLabel
-                : boothCopy.captureLabel}
+                : format === "strip" ? boothCopy.captureLabel : boothCopy.captureSingleLabel}
           </button>
         </div>
       )}
 
       <div className={styles.lowerRow}>
-        <span className={styles.privacy}>
-          <span>●</span> {boothCopy.privacyNote}
-        </span>
         <button
           className={styles.download}
           type="button"
           disabled={!canDownload || busy}
           onClick={onDownload}
         >
-          <span>{icons.download}</span>
-          {downloadLabel || boothCopy.downloadLabel}
+          <span className={styles.downloadIcon}><Icon name="download" /></span>
+          <span>{downloadLabel || boothCopy.downloadLabel}</span>
         </button>
+        <span className={styles.privacy}>
+          <span className={styles.privacyIcon} aria-hidden="true"><Icon name="lock" size={14} /></span>
+          <span>{boothCopy.privacyNote}</span>
+        </span>
       </div>
     </section>
   );
