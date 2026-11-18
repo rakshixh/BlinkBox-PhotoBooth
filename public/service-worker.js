@@ -19,23 +19,26 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('message', (event) => {
   if (event.data?.type !== 'CACHE_APP_ASSETS' || !Array.isArray(event.data.assets)) return;
-  event.waitUntil((async () => {
-    const cache = await caches.open(CACHE_NAME);
-    await Promise.all(
-      event.data.assets.map(async (asset) => {
-        const url = new URL(asset);
-        if (url.origin !== self.location.origin || !url.pathname.startsWith('/_next/static/')) return;
-        if (await cache.match(url.href)) return;
+  event.waitUntil(
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      await Promise.all(
+        event.data.assets.map(async (asset) => {
+          const url = new URL(asset);
+          if (url.origin !== self.location.origin || !url.pathname.startsWith('/_next/static/'))
+            return;
+          if (await cache.match(url.href)) return;
 
-        try {
-          const response = await fetch(url.href);
-          if (response.ok) await cache.put(url.href, response);
-        } catch {
-          // Keep other cached assets available if one asset cannot be fetched.
-        }
-      }),
-    );
-  })());
+          try {
+            const response = await fetch(url.href);
+            if (response.ok) await cache.put(url.href, response);
+          } catch {
+            // Keep other cached assets available if one asset cannot be fetched.
+          }
+        }),
+      );
+    })(),
+  );
 });
 
 self.addEventListener('fetch', (event) => {
@@ -56,14 +59,16 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (new URL(request.url).pathname.startsWith('/_next/static/')) {
-    event.respondWith((async () => {
-      const cache = await caches.open(CACHE_NAME);
-      const cached = await cache.match(request);
-      if (cached) return cached;
+    event.respondWith(
+      (async () => {
+        const cache = await caches.open(CACHE_NAME);
+        const cached = await cache.match(request);
+        if (cached) return cached;
 
-      const response = await fetch(request);
-      if (response.ok) await cache.put(request, response.clone());
-      return response;
-    })().catch(() => caches.match(request)));
+        const response = await fetch(request);
+        if (response.ok) await cache.put(request, response.clone());
+        return response;
+      })().catch(() => caches.match(request)),
+    );
   }
 });

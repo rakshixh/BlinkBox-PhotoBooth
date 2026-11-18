@@ -47,7 +47,8 @@ export function useOfflineAppCache() {
               .getEntriesByType('resource')
               .map((entry) => new URL(entry.name))
               .filter(
-                (url) => url.origin === location.origin && url.pathname.startsWith('/_next/static/'),
+                (url) =>
+                  url.origin === location.origin && url.pathname.startsWith('/_next/static/'),
               )
               .map((url) => url.href),
           ),
