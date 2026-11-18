@@ -1,0 +1,58 @@
+// Shared Sass layout and spacing values. Values are rem-based so they scale with text settings.
+$border-hairline: 0.0625rem;
+$border-medium: 0.09375rem;
+$border-strong: 0.125rem;
+
+$space-micro: 0.125rem;
+$space-1: 0.25rem;
+$space-2: 0.5rem;
+$space-3: 0.75rem;
+$space-4: 1rem;
+$space-5: 1.25rem;
+$space-6: 1.5rem;
+$space-8: 2rem;
+$space-10: 2.5rem;
+$space-12: 3rem;
+$space-tiny: 0.1875rem;
+$space-tight: 0.3125rem;
+$space-compact: 0.375rem;
+$space-small: 0.4375rem;
+$space-mid-small: 0.5625rem;
+$space-medium: 0.625rem;
+$space-body-small: 0.6875rem;
+$space-large: 0.875rem;
+$space-heading-gap: 0.8125rem;
+$space-picker-bottom: 1.3125rem;
+$space-control-gap: 1.0625rem;
+$space-section: 1.125rem;
+$space-large-gap: 1.375rem;
+$space-extra-large: 1.625rem;
+$space-7: 1.75rem;
+$space-7-5: 1.875rem;
+$space-9: 2.25rem;
+
+$tracking-label: 0.04375rem;
+$tracking-eyebrow: 0.078125rem;
+$tracking-footer: 0.034375rem;
+$tracking-compact: 0.0125rem;
+$tracking-hairline: 0.0625rem;
+$tracking-preview: 0.071875rem;
+$tracking-heading-tight: -0.021875rem;
+$tracking-brand: -0.05rem;
+$tracking-display: -0.1125rem;
+
+$size-preview: 22rem;
+$size-preview-mobile: 20rem;
+$size-booth-max: 68.125rem;
+$size-editor-min: 26.25rem;
+$size-artifact-width: 12rem;
+$size-artifact-height: 11rem;
+$size-picker-option: 9rem;
+$size-picker-option-small: 8.5rem;
+$size-modal: 26.25rem;
+
+$breakpoint-tablet: 53.75rem;
+$breakpoint-mobile: 43.75rem;
+$breakpoint-small: 31.25rem;
+$breakpoint-narrow: 24.375rem;
+$breakpoint-modal: 30rem;

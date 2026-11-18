@@ -1,22 +1,23 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
 .page {
   min-height: 100vh;
-  padding: 0 34px;
+  padding: 0 2.125rem;
   background: radial-gradient(ellipse at 50% 0, var(--paper-glow) 0, var(--paper) 65%);
 }
 .shell {
-  width: min(100%, 1090px);
+  width: min(100%, $size-booth-max);
   margin: 0 auto;
 }
 .intro {
-  min-height: 219px;
+  min-height: 13.6875rem;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 12rem;
+  grid-template-columns: minmax(0, 1fr) $size-artifact-width;
   grid-template-rows: auto auto auto;
   align-items: center;
-  column-gap: 2rem;
-  row-gap: 0.5rem;
-  padding: 30px 2px 27px;
+  column-gap: $space-8;
+  row-gap: $space-2;
+  padding: 1.875rem $space-micro 1.6875rem;
 }
 .introCopy {
   display: contents;
@@ -26,14 +27,14 @@
   grid-row: 1;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: $space-2;
   color: var(--rust);
   font: var(--font-sm) var(--mono);
-  letter-spacing: 1.25px;
+  letter-spacing: $tracking-eyebrow;
 }
 .eyebrow i {
-  width: 6px;
-  height: 6px;
+  width: $space-compact;
+  height: $space-compact;
   border-radius: 50%;
   background: var(--rust);
 }
@@ -42,9 +43,9 @@
   grid-row: 2;
   display: flex;
   flex-direction: column;
-  margin: 10px 0 7px;
+  margin: $space-medium 0 $space-small;
   font: 600 var(--font-display)/0.98 var(--serif);
-  letter-spacing: -1.8px;
+  letter-spacing: $tracking-display;
 }
 .intro h1 span:last-child {
   color: var(--rust);
@@ -53,7 +54,7 @@
 .intro p {
   grid-column: 1;
   grid-row: 3;
-  max-width: 395px;
+  max-width: 24.6875rem;
   margin: 0;
   color: var(--muted);
   font-size: var(--font-body);
@@ -65,48 +66,48 @@
   grid-row: 1 / 4;
   align-items: center;
   justify-content: center;
-  width: 12rem;
-  min-height: 11rem;
+  width: $size-artifact-width;
+  min-height: $size-artifact-height;
 }
 .booth {
   display: grid;
-  grid-template-columns: minmax(280px, 0.88fr) minmax(420px, 1.12fr);
-  gap: 48px;
+  grid-template-columns: minmax(17.5rem, 0.88fr) minmax($size-editor-min, 1.12fr);
+  gap: $space-12;
   align-items: start;
-  padding: 24px 30px 29px;
-  border: 1px solid var(--paper-booth-border);
+  padding: $space-6 $space-7-5 1.8125rem;
+  border: $border-hairline solid var(--paper-booth-border);
   background: var(--paper-panel);
-  box-shadow: 0 14px 40px var(--shadow-card);
+  box-shadow: 0 $space-large $space-10 var(--shadow-card);
 }
 .previewColumn {
   display: flex;
   justify-content: center;
-  padding: 2px 0 0;
+  padding: $space-micro 0 0;
 }
 .editorColumn {
   min-width: 0;
-  padding-top: 1px;
+  padding-top: $border-hairline;
 }
 .editorIntro h2 {
   margin: 0;
   font: 600 var(--font-heading) var(--serif);
 }
 .editorIntro p {
-  margin: 5px 0 16px;
+  margin: $space-tight 0 $space-4;
   color: var(--muted);
   font-size: var(--font-body-sm);
 }
 .liveEditor {
-  margin-top: 26px;
+  margin-top: $space-extra-large;
 }
 .footer {
-  min-height: 63px;
+  min-height: 3.9375rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: var(--text-footer-muted);
   font: var(--font-xs) var(--mono);
-  letter-spacing: 0.55px;
+  letter-spacing: $tracking-footer;
 }
 .footer span:first-child {
   font: italic var(--font-body-lg) var(--serif);
@@ -114,22 +115,22 @@
 }
 @include respond(tablet) {
   .booth {
-    grid-template-columns: minmax(240px, 0.8fr) minmax(360px, 1.2fr);
-    gap: 28px;
-    padding: 22px;
+    grid-template-columns: minmax(15rem, 0.8fr) minmax(22.5rem, 1.2fr);
+    gap: $space-7;
+    padding: $space-large-gap;
   }
 }
 @include respond(mobile) {
   .page {
-    padding: 0 17px;
+    padding: 0 1.0625rem;
   }
   .intro {
     min-height: auto;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto auto auto;
     align-items: start;
-    row-gap: 0.5rem;
-    padding: 35px 2px 25px;
+    row-gap: $space-2;
+    padding: 2.1875rem $space-micro 1.5625rem;
   }
   .introCopy {
     display: contents;
@@ -156,8 +157,8 @@
   .booth {
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    padding: 18px;
+    gap: $space-7-5;
+    padding: $space-section;
   }
   .editorColumn {
     display: contents;
@@ -180,34 +181,34 @@
   }
   .footer {
     min-height: auto;
-    gap: 8px;
-    padding: 14px 0;
+    gap: $space-2;
+    padding: $space-large 0;
     align-items: center;
     justify-content: space-between;
     white-space: nowrap;
   }
   .footer span:first-child {
-    font-size: 11px;
+    font-size: var(--font-body-sm);
   }
   .footer span:last-child {
-    font-size: 7px;
-    letter-spacing: 0.2px;
+    font-size: var(--font-7);
+    letter-spacing: $tracking-compact;
   }
 }
 @include respond(narrow) {
   .page {
-    padding: 0 12px;
+    padding: 0 $space-3;
   }
   .booth {
-    padding: 14px;
+    padding: $space-large;
   }
   .footer {
-    gap: 5px;
+    gap: $space-tight;
   }
   .footer span:first-child {
-    font-size: 9.5px;
+    font-size: var(--font-footer-compact);
   }
   .footer span:last-child {
-    font-size: 6px;
+    font-size: var(--font-2xs);
   }
 }

@@ -1,20 +1,21 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
 .controls {
   width: 100%;
 }
 .sourceTabs {
-  height: 34px;
+  height: 2.125rem;
   display: flex;
-  gap: 22px;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 17px;
+  gap: $space-large-gap;
+  border-bottom: $border-hairline solid var(--line);
+  margin-bottom: $space-control-gap;
 }
 .sourceTabs button {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 2px 5px;
+  gap: $space-2;
+  padding: 0 $space-micro $space-tight;
   border: 0;
   color: var(--text-label);
   background: transparent;
@@ -27,9 +28,9 @@
 }
 .sourceTabs button span {
   display: inline-flex;
-  width: 20px;
-  height: 20px;
-  flex: 0 0 20px;
+  width: $space-5;
+  height: $space-5;
+  flex: 0 0 $space-5;
   align-items: center;
   justify-content: center;
 }
@@ -41,22 +42,22 @@
 }
 .activeTab::after {
   position: absolute;
-  bottom: -1px;
+  bottom: -$border-hairline;
   left: 0;
   right: 0;
-  height: 2px;
+  height: $border-strong;
   background: var(--rust);
   content: '';
 }
 .uploadBox {
-  min-height: 224px;
+  min-height: 14rem;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 22px;
-  border: 1px dashed var(--border-soft);
+  padding: $space-large-gap;
+  border: $border-hairline dashed var(--border-soft);
   background: var(--paper-upload);
   text-align: center;
   cursor: pointer;
@@ -70,24 +71,24 @@
 }
 .uploadBox input {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: $border-hairline;
+  height: $border-hairline;
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   clip-path: inset(50%);
   white-space: nowrap;
 }
 .uploadBox:focus-within {
-  outline: 2px solid var(--rust);
-  outline-offset: 2px;
+  outline: $border-strong solid var(--rust);
+  outline-offset: $space-micro;
 }
 .uploadIcon {
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
-  margin-bottom: 12px;
-  border: 1px solid var(--border-icon);
+  width: 2.375rem;
+  height: 2.375rem;
+  margin-bottom: $space-3;
+  border: $border-hairline solid var(--border-icon);
   border-radius: 50%;
   color: var(--rust);
   font-size: var(--font-heading);
@@ -96,23 +97,23 @@
   font: 600 var(--font-xl) var(--serif);
 }
 .uploadHint {
-  margin-top: 6px;
+  margin-top: $space-compact;
   color: var(--muted);
   font: var(--font-body-sm) var(--sans);
 }
 .fileTypes {
-  margin-top: 20px;
+  margin-top: $space-5;
   color: var(--text-subtle);
   font: var(--font-xs) var(--mono);
-  letter-spacing: 0.7px;
+  letter-spacing: $tracking-label;
 }
 .uploadError {
-  margin-top: 12px;
+  margin-top: $space-3;
   color: var(--rust-dark);
   font: var(--font-body-sm) var(--sans);
 }
 .cameraBox {
-  padding: 12px;
+  padding: $space-3;
   background: var(--paper-control);
 }
 .cameraView {
@@ -143,11 +144,11 @@
   font-size: var(--font-camera-icon);
 }
 .cameraPlaceholder b {
-  margin-top: 9px;
+  margin-top: $space-mid-small;
   font: var(--font-lg) var(--serif);
 }
 .cameraPlaceholder small {
-  margin-top: 4px;
+  margin-top: $space-1;
   font-size: var(--font-md);
   opacity: 0.7;
 }
@@ -159,7 +160,7 @@
   color: var(--white-soft);
   background: var(--overlay-dark);
   font: italic var(--font-countdown) var(--serif);
-  text-shadow: 0 3px 16px var(--shadow-countdown);
+  text-shadow: 0 $space-tiny $space-4 var(--shadow-countdown);
   animation: pop 0.3s ease-out;
 }
 @keyframes pop {
@@ -174,24 +175,24 @@
 }
 .cameraError {
   position: absolute;
-  inset: auto 8px 8px;
-  padding: 9px;
+  inset: auto $space-2 $space-2;
+  padding: $space-mid-small;
   color: var(--white);
   background: var(--error-bg);
   font-size: var(--font-body-sm);
   text-align: center;
 }
 .cameraBox p {
-  margin: 11px 0;
+  margin: $space-body-small 0;
   color: var(--muted);
   text-align: center;
   font: italic var(--font-body) var(--serif);
 }
 .captureButton {
   width: 100%;
-  min-height: 44px;
+  min-height: 2.75rem;
   display: flex;
-  gap: 9px;
+  gap: $space-mid-small;
   align-items: center;
   justify-content: center;
   border: 0;
@@ -199,7 +200,7 @@
   color: var(--white-soft);
   cursor: pointer;
   font: var(--font-md) var(--mono);
-  letter-spacing: 0.7px;
+  letter-spacing: $tracking-label;
   transition: background 0.2s;
 }
 .captureButton:hover:not(:disabled) {
@@ -210,28 +211,28 @@
   cursor: not-allowed;
 }
 .shutter {
-  width: 17px;
-  height: 17px;
-  border: 2px solid var(--white-soft);
+  width: 1.0625rem;
+  height: 1.0625rem;
+  border: $border-strong solid var(--white-soft);
   border-radius: 50%;
   box-shadow:
-    inset 0 0 0 3px var(--rust),
-    inset 0 0 0 5px var(--white-soft);
+    inset 0 0 0 $space-tiny var(--rust),
+    inset 0 0 0 $space-tight var(--white-soft);
 }
 .lowerRow {
   display: flex;
   width: 100%;
   align-items: center;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 17px;
+  gap: $space-2;
+  margin-top: $space-control-gap;
 }
 .privacy {
   display: flex;
   max-width: 100%;
   min-width: 0;
   align-items: flex-start;
-  gap: 7px;
+  gap: $space-small;
   justify-content: center;
   color: var(--text-label);
   font: var(--font-md) var(--sans);
@@ -239,9 +240,9 @@
 }
 .privacyIcon {
   display: inline-flex;
-  width: 14px;
-  height: 14px;
-  flex: 0 0 14px;
+  width: $space-large;
+  height: $space-large;
+  flex: 0 0 $space-large;
   align-items: center;
   justify-content: center;
   margin-top: 0;
@@ -250,12 +251,12 @@
 .download {
   display: inline-flex;
   width: 100%;
-  min-height: 43px;
+  min-height: 2.6875rem;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 0 14px;
-  border: 1px solid var(--ink);
+  gap: $space-2;
+  padding: 0 $space-large;
+  border: $border-hairline solid var(--ink);
   background: var(--ink);
   color: var(--white-soft);
   cursor: pointer;
@@ -276,9 +277,9 @@
 }
 .downloadIcon {
   display: inline-flex;
-  width: 20px;
-  height: 20px;
-  flex: 0 0 20px;
+  width: $space-5;
+  height: $space-5;
+  flex: 0 0 $space-5;
   align-items: center;
   justify-content: center;
 }
@@ -297,10 +298,10 @@
 @include respond(mobile) {
   .lowerRow {
     position: sticky;
-    bottom: env(safe-area-inset-bottom, 0px);
+    bottom: env(safe-area-inset-bottom, 0rem);
     z-index: 5;
-    padding: 9px;
+    padding: $space-mid-small;
     background: var(--paper);
-    box-shadow: 0 -4px 12px var(--shadow-card);
+    box-shadow: 0 (-$space-1) $space-3 var(--shadow-card);
   }
 }

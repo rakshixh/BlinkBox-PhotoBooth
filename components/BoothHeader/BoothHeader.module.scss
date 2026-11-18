@@ -1,21 +1,22 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 76px;
-  border-bottom: 1px solid var(--line);
+  min-height: 4.75rem;
+  border-bottom: $border-hairline solid var(--line);
   position: relative;
   z-index: 1;
 }
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  gap: $space-mid-small;
   color: var(--ink);
   text-decoration: none;
   font: 700 var(--font-brand) var(--serif);
-  letter-spacing: -0.8px;
+  letter-spacing: $tracking-brand;
 }
 .brandMark {
   display: inline-flex;
@@ -26,16 +27,16 @@
 }
 .period {
   color: var(--rust);
-  margin-left: -9px;
+  margin-left: -$space-mid-small;
 }
 .githubButton {
   display: inline-flex;
-  min-height: 40px;
+  min-height: $space-10;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 0 12px;
-  border: 1px solid var(--line);
+  gap: $space-2;
+  padding: 0 $space-3;
+  border: $border-hairline solid var(--line);
   background: var(--cream);
   color: var(--ink);
   text-decoration: none;
@@ -54,6 +55,6 @@
 }
 @include respond(mobile) {
   .header {
-    min-height: 64px;
+    min-height: 4rem;
   }
 }

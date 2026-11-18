@@ -1,19 +1,20 @@
 @use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
 
 .picker {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 21px;
+  gap: $space-2;
+  margin-bottom: $space-picker-bottom;
 }
 .picker button {
   display: flex;
   min-width: 0;
-  min-height: 74px;
+  min-height: 4.625rem;
   align-items: flex-start;
-  gap: 8px;
-  padding: 10px 8px;
-  border: 1px solid var(--line);
+  gap: $space-2;
+  padding: $space-medium $space-2;
+  border: $border-hairline solid var(--line);
   background: var(--cream);
   text-align: left;
   cursor: pointer;
@@ -25,13 +26,13 @@
 .picker .selected {
   border-color: var(--rust);
   background: var(--filter-active);
-  box-shadow: inset 0 0 0 1px var(--rust);
+  box-shadow: inset 0 0 0 $border-hairline var(--rust);
 }
 .mark {
   display: grid;
-  width: 24px;
-  height: 28px;
-  flex: 0 0 24px;
+  width: $space-6;
+  height: 1.75rem;
+  flex: 0 0 $space-6;
   place-items: center;
   color: var(--rust);
 }
@@ -44,7 +45,7 @@
   line-height: 1.2;
 }
 .picker small {
-  margin-top: 4px;
+  margin-top: $space-1;
   color: var(--muted);
   font-size: var(--font-xs);
   line-height: 1.25;
@@ -55,19 +56,19 @@
 
 @include respond(tablet) {
   .picker {
-    gap: 5px;
+    gap: $space-tight;
   }
   .picker button {
-    min-height: 76px;
+    min-height: 4.75rem;
     flex-direction: column;
-    gap: 3px;
-    padding: 8px 7px;
+    gap: $space-tiny;
+    padding: $space-2 $space-small;
   }
   .mark {
-    height: 22px;
+    height: 1.375rem;
   }
   .picker small {
-    font-size: 10px;
+    font-size: var(--font-md);
   }
 }
 

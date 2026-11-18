@@ -1,9 +1,10 @@
+@use '../../styles/variables' as *;
 .artifact {
   position: relative;
-  width: 12rem;
-  height: 11rem;
-  flex: 0 0 12rem;
-  margin-right: 2.25rem;
+  width: $size-artifact-width;
+  height: $size-artifact-height;
+  flex: 0 0 $size-artifact-width;
+  margin-right: $space-9;
   isolation: isolate;
 }
 .backPrint,
@@ -11,8 +12,8 @@
   position: absolute;
   width: 7.25rem;
   height: 9.5rem;
-  border: 1px solid var(--paper-frame-line);
-  box-shadow: 0 0.55rem 1.25rem var(--shadow-paper);
+  border: $border-hairline solid var(--paper-frame-line);
+  box-shadow: 0 0.55rem $space-5 var(--shadow-paper);
 }
 .backPrint {
   top: 0.8rem;
@@ -63,7 +64,7 @@
   display: block;
   height: 1.45rem;
   overflow: hidden;
-  box-shadow: inset 0 0 0 1px var(--frame-overlay);
+  box-shadow: inset 0 0 0 $border-hairline var(--frame-overlay);
 }
 .photo::before,
 .photo::after {
@@ -93,7 +94,7 @@
   z-index: 1;
   color: var(--white-soft);
   font: var(--font-2xs) var(--mono);
-  text-shadow: 0 1px 0 var(--shadow-text);
+  text-shadow: 0 $border-hairline 0 var(--shadow-text);
 }
 .golden {
   --scene-sun: var(--swatch-70-light);
@@ -134,14 +135,14 @@
 }
 .flashSticker {
   position: absolute;
-  top: 0.25rem;
+  top: $space-1;
   right: 0.3rem;
   z-index: 2;
   display: grid;
   width: 2.4rem;
   height: 2.4rem;
   place-items: center;
-  border: 1px solid var(--paper-frame-line);
+  border: $border-hairline solid var(--paper-frame-line);
   border-radius: 50%;
   background: var(--paper-glow);
   box-shadow: 0 0.3rem 0.8rem var(--shadow-paper);

@@ -106,8 +106,7 @@ export default function StripPreview({
             {format !== 'photo' && (
               <div className={styles.paperFooter}>
                 <span
-                  className={`${styles.captionText} ${styles[`caption-${captionStyle.id}`] ?? styles.captionStamp}`}
-                  style={{ fontSize: caption.length > 32 ? '6px' : '7px' }}
+                  className={`${styles.captionText} ${styles[`caption-${captionStyle.id}`] ?? styles.captionStamp} ${caption.length > 32 ? styles.captionCompact : ''}`}
                 >
                   {caption}
                 </span>

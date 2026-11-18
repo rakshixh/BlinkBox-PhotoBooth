@@ -1,18 +1,20 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
 .overlay {
   position: fixed;
   inset: 0;
   z-index: 50;
   display: grid;
   place-items: center;
-  padding: 20px;
+  padding: $space-5;
   background: var(--overlay-scrim);
 }
 .dialog {
-  width: min(100%, 420px);
-  padding: 30px;
-  border: 1px solid var(--paper-booth-border);
+  width: min(100%, $size-modal);
+  padding: $space-7-5;
+  border: $border-hairline solid var(--paper-booth-border);
   background: var(--paper);
-  box-shadow: 0 18px 50px var(--shadow-card);
+  box-shadow: 0 1.125rem 3.125rem var(--shadow-card);
   color: var(--ink);
   text-align: center;
   outline: none;
@@ -20,25 +22,25 @@
 .eyebrow {
   color: var(--rust);
   font: var(--font-sm) var(--mono);
-  letter-spacing: 1px;
+  letter-spacing: $tracking-hairline;
 }
 .dialog h2 {
-  margin: 10px 0 8px;
+  margin: $space-medium 0 $space-2;
   font: 600 var(--font-heading) var(--serif);
 }
 .dialog p {
-  margin: 0 auto 18px;
+  margin: 0 auto $space-section;
   max-width: 34ch;
   color: var(--muted);
   font: var(--font-body) / 1.5 var(--sans);
 }
 .dialog a {
   display: inline-flex;
-  min-height: 40px;
+  min-height: $space-10;
   align-items: center;
   justify-content: center;
-  padding: 0 14px;
-  border: 1px solid var(--rust);
+  padding: 0 $space-large;
+  border: $border-hairline solid var(--rust);
   color: var(--rust-dark);
   text-decoration: none;
   font: 600 var(--font-body-sm) var(--sans);
@@ -51,24 +53,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  margin-top: 22px;
+  gap: $space-mid-small;
+  margin-top: $space-large-gap;
   color: var(--muted);
   font: var(--font-body-sm) var(--sans);
 }
 .countdown b {
   display: grid;
-  width: 32px;
-  height: 32px;
+  width: $space-8;
+  height: $space-8;
   place-items: center;
-  border: 1px solid var(--line);
+  border: $border-hairline solid var(--line);
   border-radius: 50%;
   color: var(--rust-dark);
   font: 600 var(--font-body) var(--sans);
   font-variant-numeric: tabular-nums;
 }
-@media (max-width: 480px) {
+@include respond(modal) {
   .dialog {
-    padding: 25px 20px;
+    padding: 1.5625rem $space-5;
   }
 }

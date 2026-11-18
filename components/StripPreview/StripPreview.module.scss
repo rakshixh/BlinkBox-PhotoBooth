@@ -1,3 +1,5 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
 .previewArea {
   width: 100%;
   display: flex;
@@ -5,31 +7,31 @@
   align-items: center;
 }
 .stageLabel {
-  width: min(100%, 352px);
+  width: min(100%, $size-preview);
   display: flex;
   justify-content: space-between;
-  margin: 0 0 14px;
+  margin: 0 0 $space-large;
   color: var(--muted);
   font: var(--font-sm) var(--mono);
-  letter-spacing: 1.15px;
+  letter-spacing: $tracking-preview;
 }
 .paperWrap {
-  width: min(100%, 352px);
-  padding: 12px;
+  width: min(100%, $size-preview);
+  padding: $space-3;
   background: var(--paper-frame);
-  border: 1px solid var(--paper-frame-line);
-  box-shadow: 0 3px 0 var(--paper-frame-shadow);
+  border: $border-hairline solid var(--paper-frame-line);
+  box-shadow: 0 $space-tiny 0 var(--paper-frame-shadow);
 }
 .paper {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 10px 10px 0;
+  gap: $space-medium;
+  padding: $space-medium $space-medium 0;
   color: var(--paper-ink);
-  box-shadow: 0 4px 12px var(--shadow-paper);
+  box-shadow: 0 $space-1 $space-3 var(--shadow-paper);
 }
 .polaroid {
-  padding-bottom: 22px;
+  padding-bottom: 1.375rem;
 }
 .photo {
   appearance: none;
@@ -45,12 +47,12 @@
   cursor: pointer;
 }
 .polaroidWrap {
-  width: min(100%, 352px);
+  width: min(100%, $size-preview);
 }
 .barePhoto {
   display: grid;
-  width: min(100%, 352px);
-  min-height: 240px;
+  width: min(100%, $size-preview);
+  min-height: 15rem;
   max-height: 70vh;
   place-items: center;
   overflow: hidden;
@@ -147,8 +149,8 @@
   transform: scale(1.035);
 }
 .selected {
-  outline: 2px solid var(--rust);
-  outline-offset: 2px;
+  outline: $border-strong solid var(--rust);
+  outline-offset: $space-micro;
   z-index: 1;
 }
 .placeholder {
@@ -158,14 +160,14 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 9px;
+  gap: $space-mid-small;
   color: var(--text-soft);
   background: repeating-linear-gradient(
     135deg,
     var(--paper-placeholder),
-    var(--paper-placeholder) 8px,
-    var(--paper-placeholder-alt) 8px,
-    var(--paper-placeholder-alt) 16px
+    var(--paper-placeholder) $space-2,
+    var(--paper-placeholder-alt) $space-2,
+    var(--paper-placeholder-alt) $space-4
   );
 }
 .placeholder i {
@@ -175,13 +177,13 @@
 .placeholder b {
   font: var(--font-sm) var(--mono);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: $tracking-hairline;
 }
 .frameNumber {
   position: absolute;
-  top: 7px;
-  right: 8px;
-  padding: 3px 5px;
+  top: $space-small;
+  right: $space-2;
+  padding: $space-tiny $space-tight;
   color: var(--white-fade);
   background: var(--frame-overlay);
   font: var(--font-sm) var(--mono);
@@ -190,11 +192,11 @@
 .paperFooter {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 35px;
+  gap: $space-2;
+  min-height: 2.1875rem;
   color: var(--paper-ink);
   font: var(--font-sm) var(--mono);
-  letter-spacing: 0.7px;
+  letter-spacing: $tracking-label;
 }
 .paperFooter span {
   max-width: 100%;
@@ -230,7 +232,10 @@
 }
 .paperFooter .captionText,
 .paperFooter .dateText {
-  font-size: 7px;
+  font-size: var(--font-7);
+}
+.paperFooter .captionCompact {
+  font-size: var(--font-2xs);
 }
 .emptyPhoto {
   display: grid;
@@ -239,22 +244,22 @@
   min-height: 0;
   aspect-ratio: 4 / 3;
   place-items: center;
-  padding: 24px;
+  padding: $space-6;
   color: var(--muted);
   background: var(--paper-placeholder);
   font: italic var(--font-body) var(--serif);
   text-align: center;
 }
 .previewHint {
-  margin: 15px 0 0;
+  margin: 0.9375rem 0 0;
   color: var(--muted);
   font: italic var(--font-body) var(--serif);
   text-align: center;
 }
-@media (max-width: 43.75rem) {
+@include respond(mobile) {
   .stageLabel,
   .paperWrap,
   .barePhoto {
-    width: min(100%, 320px);
+    width: min(100%, $size-preview-mobile);
   }
 }

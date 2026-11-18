@@ -1,18 +1,24 @@
+@use './variables' as vars;
+
 @mixin respond($size) {
   @if $size == tablet {
-    @media (max-width: 53.75rem) {
+    @media (max-width: vars.$breakpoint-tablet) {
       @content;
     }
   } @else if $size == mobile {
-    @media (max-width: 43.75rem) {
+    @media (max-width: vars.$breakpoint-mobile) {
       @content;
     }
   } @else if $size == small {
-    @media (max-width: 31.25rem) {
+    @media (max-width: vars.$breakpoint-small) {
       @content;
     }
   } @else if $size == narrow {
-    @media (max-width: 24.375rem) {
+    @media (max-width: vars.$breakpoint-narrow) {
+      @content;
+    }
+  } @else if $size == modal {
+    @media (max-width: vars.$breakpoint-modal) {
       @content;
     }
   }
