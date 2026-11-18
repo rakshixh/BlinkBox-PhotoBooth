@@ -31,7 +31,10 @@ export default function HorizontalPicker({
             {renderSwatch ? (
               renderSwatch(item, styles.swatch)
             ) : (
-              <span className={`${styles.swatch} ${getSwatchClassName?.(item) ?? ''}`} aria-hidden="true">
+              <span
+                className={`${styles.swatch} ${getSwatchClassName?.(item) ?? ''}`}
+                aria-hidden="true"
+              >
                 {previewLabel && <span className={styles.previewLabel}>{previewLabel}</span>}
               </span>
             )}
