@@ -14,7 +14,7 @@
 
 ---
 
-BlinkBox turns a photo—or three—into a keepsake. Pick a format, choose a film look, and download a JPEG. Photos are edited in your browser; the app does not upload or store them on a server.
+BlinkBox helps you give your favorite photos a vintage feel. Choose a filter, then download a single photo, a Polaroid, or a three-photo strip as a JPEG. Your photos stay on your device and are never uploaded.
 
 ## Make a keepsake
 
