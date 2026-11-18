@@ -1,4 +1,4 @@
-const CACHE_NAME = 'blinkbox-shell-v2';
+const CACHE_NAME = 'blinkbox-shell-v3';
 const SHELL_URLS = ['/', '/manifest.webmanifest', '/icon.svg', '/icon-192.svg', '/icon-512.svg'];
 
 self.addEventListener('install', (event) => {
@@ -19,18 +19,23 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('message', (event) => {
   if (event.data?.type !== 'CACHE_APP_ASSETS' || !Array.isArray(event.data.assets)) return;
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) =>
-      Promise.all(
-        event.data.assets.map((asset) => {
-          const url = new URL(asset);
-          if (url.origin !== self.location.origin || !url.pathname.startsWith('/_next/static/'))
-            return null;
-          return fetch(url.href).then((response) => response.ok && cache.put(url.href, response));
-        }),
-      ),
-    ),
-  );
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    await Promise.all(
+      event.data.assets.map(async (asset) => {
+        const url = new URL(asset);
+        if (url.origin !== self.location.origin || !url.pathname.startsWith('/_next/static/')) return;
+        if (await cache.match(url.href)) return;
+
+        try {
+          const response = await fetch(url.href);
+          if (response.ok) await cache.put(url.href, response);
+        } catch {
+          // Keep other cached assets available if one asset cannot be fetched.
+        }
+      }),
+    );
+  })());
 });
 
 self.addEventListener('fetch', (event) => {
@@ -51,15 +56,14 @@ self.addEventListener('fetch', (event) => {
   }
 
   if (new URL(request.url).pathname.startsWith('/_next/static/')) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone()));
-          }
-          return response;
-        })
-        .catch(() => caches.match(request)),
-    );
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE_NAME);
+      const cached = await cache.match(request);
+      if (cached) return cached;
+
+      const response = await fetch(request);
+      if (response.ok) await cache.put(request, response.clone());
+      return response;
+    })().catch(() => caches.match(request)));
   }
 });

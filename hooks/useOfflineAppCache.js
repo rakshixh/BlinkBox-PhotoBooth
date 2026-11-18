@@ -29,20 +29,35 @@ export function useOfflineAppCache() {
       return;
     }
 
-    navigator.serviceWorker
-      .register('/service-worker.js')
-      .then(() =>
-        navigator.serviceWorker.ready.then((registration) => {
-          const assets = performance
-            .getEntriesByType('resource')
-            .map((entry) => new URL(entry.name))
-            .filter(
-              (url) => url.origin === location.origin && url.pathname.startsWith('/_next/static/'),
-            )
-            .map((url) => url.href);
-          registration.active?.postMessage({ type: 'CACHE_APP_ASSETS', assets });
-        }),
-      )
-      .catch(() => {});
+    const prepareOfflineApp = async () => {
+      try {
+        await navigator.serviceWorker.register('/service-worker.js');
+        const registration = await navigator.serviceWorker.ready;
+
+        await Promise.allSettled([
+          import('@/components/BackdropPicker/BackdropPicker'),
+          import('@/components/StripCustomization/StripCustomization'),
+          import('@/components/DownloadCountdownModal/DownloadCountdownModal'),
+          import('@/lib/photoExport'),
+        ]);
+
+        const assets = Array.from(
+          new Set(
+            performance
+              .getEntriesByType('resource')
+              .map((entry) => new URL(entry.name))
+              .filter(
+                (url) => url.origin === location.origin && url.pathname.startsWith('/_next/static/'),
+              )
+              .map((url) => url.href),
+          ),
+        );
+        registration.active?.postMessage({ type: 'CACHE_APP_ASSETS', assets });
+      } catch {
+        // The app stays usable online even if offline caching is unavailable.
+      }
+    };
+
+    void prepareOfflineApp();
   }, []);
 }
