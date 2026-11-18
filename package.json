@@ -2,6 +2,9 @@
   "name": "blinkbox-photobooth",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
+  "author": "rakshixh",
+  "description": "Make vintage photo prints and strips on your device.",
   "scripts": {
     "dev": "next dev --webpack --hostname 0.0.0.0",
     "build": "next build --webpack",
