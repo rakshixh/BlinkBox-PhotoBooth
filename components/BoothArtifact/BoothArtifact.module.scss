@@ -1,0 +1,168 @@
+@use '../../styles/variables' as *;
+.artifact {
+  position: relative;
+  width: $size-artifact-width;
+  height: $size-artifact-height;
+  flex: 0 0 $size-artifact-width;
+  margin-right: $space-9;
+  isolation: isolate;
+}
+.backPrint,
+.print {
+  position: absolute;
+  width: 7.25rem;
+  height: 9.5rem;
+  border: $border-hairline solid var(--paper-frame-line);
+  box-shadow: 0 0.55rem $space-5 var(--shadow-paper);
+}
+.backPrint {
+  top: 0.8rem;
+  left: 2.45rem;
+}
+.backPrintBlush {
+  background: var(--strip-blush-bg);
+  transform: rotate(11deg) translate(0.35rem, 0.2rem);
+}
+.backPrintKraft {
+  background: var(--strip-kraft-bg);
+  transform: rotate(-13deg) translate(-0.2rem, 0.45rem);
+}
+.print {
+  top: 0.55rem;
+  left: 2.15rem;
+  z-index: 1;
+  display: flex;
+  padding: 0.6rem;
+  flex-direction: column;
+  background: var(--cream);
+  transform: rotate(-6deg);
+  animation: drift 6s ease-in-out infinite;
+}
+.printHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+  color: var(--muted);
+  font: 500 var(--font-2xs) var(--mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.printHeader span:first-child {
+  color: var(--ink);
+  font-size: var(--font-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+}
+.frames {
+  display: grid;
+  gap: 0.3rem;
+}
+.photo {
+  position: relative;
+  display: block;
+  height: 1.45rem;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 $border-hairline var(--frame-overlay);
+}
+.photo::before,
+.photo::after {
+  position: absolute;
+  content: '';
+}
+.photo::before {
+  top: 0.18rem;
+  right: 0.45rem;
+  width: 0.58rem;
+  height: 0.58rem;
+  border-radius: 50%;
+  background: var(--scene-sun, var(--swatch-70-light));
+}
+.photo::after {
+  right: -0.08rem;
+  bottom: -0.18rem;
+  left: -0.08rem;
+  height: 65%;
+  background: var(--scene-ground, var(--swatch-olive));
+  clip-path: polygon(0 58%, 25% 15%, 43% 52%, 63% 4%, 100% 55%, 100% 100%, 0 100%);
+}
+.photo > span {
+  position: absolute;
+  bottom: 0.12rem;
+  left: 0.18rem;
+  z-index: 1;
+  color: var(--white-soft);
+  font: var(--font-2xs) var(--mono);
+  text-shadow: 0 $border-hairline 0 var(--shadow-text);
+}
+.golden {
+  --scene-sun: var(--swatch-70-light);
+  --scene-ground: var(--swatch-olive);
+  background: linear-gradient(145deg, var(--swatch-warm-light), var(--swatch-sepia-light));
+}
+.night {
+  --scene-sun: var(--swatch-flash-light);
+  --scene-ground: var(--swatch-flash-dark);
+  background:
+    radial-gradient(circle at 24% 30%, var(--white-fade) 0 0.04rem, transparent 0.07rem),
+    radial-gradient(circle at 52% 20%, var(--film-s67-cool) 0 0.05rem, transparent 0.08rem),
+    linear-gradient(135deg, var(--swatch-flash-dark), var(--swatch-soft-dark));
+}
+.sunset {
+  --scene-sun: var(--swatch-sepia-light);
+  --scene-ground: var(--swatch-vintage-dark);
+  background: linear-gradient(
+    145deg,
+    var(--swatch-flash-light),
+    var(--swatch-70-light) 60%,
+    var(--swatch-70-mid)
+  );
+}
+.printFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.45rem;
+  color: var(--text-soft);
+  font: var(--font-2xs) var(--mono);
+  letter-spacing: 0.08em;
+}
+.printFooter svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+.flashSticker {
+  position: absolute;
+  top: $space-1;
+  right: 0.3rem;
+  z-index: 2;
+  display: grid;
+  width: 2.4rem;
+  height: 2.4rem;
+  place-items: center;
+  border: $border-hairline solid var(--paper-frame-line);
+  border-radius: 50%;
+  background: var(--paper-glow);
+  box-shadow: 0 0.3rem 0.8rem var(--shadow-paper);
+  transform: rotate(9deg);
+}
+.flashSticker svg {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+@keyframes drift {
+  0%,
+  100% {
+    transform: rotate(-6deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-4deg) translateY(-0.2rem);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .print {
+    animation: none;
+  }
+}

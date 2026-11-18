@@ -1,0 +1,307 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+.controls {
+  width: 100%;
+}
+.sourceTabs {
+  height: 2.125rem;
+  display: flex;
+  gap: $space-large-gap;
+  border-bottom: $border-hairline solid var(--line);
+  margin-bottom: $space-control-gap;
+}
+.sourceTabs button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  padding: 0 $space-micro $space-tight;
+  border: 0;
+  color: var(--text-label);
+  background: transparent;
+  cursor: pointer;
+  font: 600 var(--font-body-sm) var(--sans);
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
+}
+.sourceTabs button span {
+  display: inline-flex;
+  width: $space-5;
+  height: $space-5;
+  flex: 0 0 $space-5;
+  align-items: center;
+  justify-content: center;
+}
+.sourceTabs button span svg {
+  display: block;
+}
+.sourceTabs .activeTab {
+  color: var(--ink);
+}
+.activeTab::after {
+  position: absolute;
+  bottom: -$border-hairline;
+  left: 0;
+  right: 0;
+  height: $border-strong;
+  background: var(--rust);
+  content: '';
+}
+.uploadBox {
+  min-height: 14rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $space-large-gap;
+  border: $border-hairline dashed var(--border-soft);
+  background: var(--paper-upload);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    border 0.2s,
+    background 0.2s;
+}
+.uploadBox:hover {
+  border-color: var(--rust);
+  background: var(--paper-upload-hover);
+}
+.uploadBox input {
+  position: absolute;
+  width: $border-hairline;
+  height: $border-hairline;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.uploadBox:focus-within {
+  outline: $border-strong solid var(--rust);
+  outline-offset: $space-micro;
+}
+.uploadIcon {
+  display: grid;
+  place-items: center;
+  width: 2.375rem;
+  height: 2.375rem;
+  margin-bottom: $space-3;
+  border: $border-hairline solid var(--border-icon);
+  border-radius: 50%;
+  color: var(--rust);
+  font-size: var(--font-heading);
+}
+.uploadTitle {
+  font: 600 var(--font-xl) var(--serif);
+}
+.uploadHint {
+  margin-top: $space-compact;
+  color: var(--muted);
+  font: var(--font-body-sm) var(--sans);
+}
+.fileTypes {
+  margin-top: $space-5;
+  color: var(--text-subtle);
+  font: var(--font-xs) var(--mono);
+  letter-spacing: $tracking-label;
+}
+.uploadError {
+  margin-top: $space-3;
+  color: var(--rust-dark);
+  font: var(--font-body-sm) var(--sans);
+}
+.cameraBox {
+  padding: $space-3;
+  background: var(--paper-control);
+}
+.cameraView {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--camera-bg);
+}
+.cameraView video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+.cameraPlaceholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: var(--camera-light);
+  background: radial-gradient(ellipse at center, var(--camera-dark) 0, var(--camera-bg) 70%);
+}
+.cameraPlaceholder span {
+  color: var(--camera-rust);
+  font-size: var(--font-camera-icon);
+}
+.cameraPlaceholder b {
+  margin-top: $space-mid-small;
+  font: var(--font-lg) var(--serif);
+}
+.cameraPlaceholder small {
+  margin-top: $space-1;
+  font-size: var(--font-md);
+  opacity: 0.7;
+}
+.countdown {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--white-soft);
+  background: var(--overlay-dark);
+  font: italic var(--font-countdown) var(--serif);
+  text-shadow: 0 $space-tiny $space-4 var(--shadow-countdown);
+  animation: pop 0.3s ease-out;
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.cameraError {
+  position: absolute;
+  inset: auto $space-2 $space-2;
+  padding: $space-mid-small;
+  color: var(--white);
+  background: var(--error-bg);
+  font-size: var(--font-body-sm);
+  text-align: center;
+}
+.cameraBox p {
+  margin: $space-body-small 0;
+  color: var(--muted);
+  text-align: center;
+  font: italic var(--font-body) var(--serif);
+}
+.captureButton {
+  width: 100%;
+  min-height: 2.75rem;
+  display: flex;
+  gap: $space-mid-small;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: var(--rust);
+  color: var(--white-soft);
+  cursor: pointer;
+  font: var(--font-md) var(--mono);
+  letter-spacing: $tracking-label;
+  transition: background 0.2s;
+}
+.captureButton:hover:not(:disabled) {
+  background: var(--rust-dark);
+}
+.captureButton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.shutter {
+  width: 1.0625rem;
+  height: 1.0625rem;
+  border: $border-strong solid var(--white-soft);
+  border-radius: 50%;
+  box-shadow:
+    inset 0 0 0 $space-tiny var(--rust),
+    inset 0 0 0 $space-tight var(--white-soft);
+}
+.lowerRow {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-direction: column;
+  gap: $space-2;
+  margin-top: $space-control-gap;
+}
+.privacy {
+  display: flex;
+  max-width: 100%;
+  min-width: 0;
+  align-items: flex-start;
+  gap: $space-small;
+  justify-content: center;
+  color: var(--text-label);
+  font: var(--font-md) var(--sans);
+  line-height: 1.4;
+}
+.privacyIcon {
+  display: inline-flex;
+  width: $space-large;
+  height: $space-large;
+  flex: 0 0 $space-large;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0;
+  color: var(--status-green);
+}
+.download {
+  display: inline-flex;
+  width: 100%;
+  min-height: 2.6875rem;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  padding: 0 $space-large;
+  border: $border-hairline solid var(--ink);
+  background: var(--ink);
+  color: var(--white-soft);
+  cursor: pointer;
+  font: 600 var(--font-body-sm) var(--sans);
+  letter-spacing: 0;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.download:hover:not(:disabled) {
+  color: var(--ink);
+  background: transparent;
+}
+.download:disabled {
+  border-color: var(--disabled-border);
+  background: var(--disabled-bg);
+  color: var(--disabled-text);
+  cursor: not-allowed;
+}
+.downloadIcon {
+  display: inline-flex;
+  width: $space-5;
+  height: $space-5;
+  flex: 0 0 $space-5;
+  align-items: center;
+  justify-content: center;
+}
+@include respond(small) {
+  .lowerRow {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .download {
+    width: 100%;
+  }
+  .privacy {
+    max-width: 100%;
+  }
+}
+@include respond(mobile) {
+  .lowerRow {
+    position: sticky;
+    bottom: env(safe-area-inset-bottom, 0rem);
+    z-index: 5;
+    padding: $space-mid-small;
+    background: var(--paper);
+    box-shadow: 0 (-$space-1) $space-3 var(--shadow-card);
+  }
+}

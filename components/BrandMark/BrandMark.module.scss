@@ -1,0 +1,40 @@
+.mark {
+  display: block;
+  width: 1.75rem;
+  height: 1.75rem;
+  overflow: visible;
+  color: var(--ink);
+}
+.echo {
+  stroke: var(--rust);
+  stroke-linecap: round;
+  stroke-width: 1.6;
+  opacity: 0.55;
+}
+.frame {
+  fill: var(--cream);
+  stroke: currentColor;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+.viewfinder {
+  fill: var(--paper-frame);
+  stroke: var(--paper-frame-line);
+  stroke-width: 0.8;
+}
+.flash {
+  fill: var(--rust);
+  stroke: var(--rust-dark);
+  stroke-linejoin: round;
+  stroke-width: 0.5;
+}
+.status {
+  fill: var(--rust-dark);
+  stroke: var(--paper);
+  stroke-width: 1.5;
+}
+.captionLine {
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 1.3;
+}

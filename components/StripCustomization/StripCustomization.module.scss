@@ -1,0 +1,138 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.section {
+  padding-top: $space-extra-large;
+  border-top: $border-hairline solid var(--line);
+}
+.heading {
+  margin-bottom: $space-heading-gap;
+}
+.heading h2 {
+  margin: 0;
+  font: 600 var(--font-heading) var(--serif);
+  letter-spacing: $tracking-heading-tight;
+}
+.captionStyle legend {
+  margin-bottom: $space-mid-small;
+  color: var(--ink);
+  font-size: var(--font-body-sm);
+  font-weight: 600;
+}
+.captionField {
+  margin-top: $space-section;
+}
+.captionStyle legend {
+  display: block;
+  margin-bottom: $space-small;
+  color: var(--ink);
+  font-size: var(--font-body-sm);
+  font-weight: 600;
+}
+.captionField input {
+  width: 100%;
+  min-height: $space-10;
+  padding: 0 $space-body-small;
+  border: $border-hairline solid var(--border-soft);
+  border-radius: 0;
+  background: var(--paper-upload);
+  color: var(--ink);
+  font: var(--font-body-sm) var(--sans);
+}
+.captionField input:focus-visible {
+  outline: $border-strong solid var(--rust);
+  outline-offset: $space-micro;
+}
+.captionField input::placeholder {
+  color: var(--text-subtle);
+}
+.captionMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-2;
+  margin-top: $space-compact;
+  color: var(--muted);
+  font-size: var(--font-xs);
+}
+.optionRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $space-3;
+  margin-top: $space-control-gap;
+}
+.dateToggle {
+  display: inline-flex;
+  min-height: $space-8;
+  align-items: center;
+  gap: $space-2;
+  color: var(--ink);
+  font-size: var(--font-body-sm);
+  cursor: pointer;
+}
+.dateToggle input {
+  position: absolute;
+  width: $border-hairline;
+  height: $border-hairline;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.checkmark {
+  display: grid;
+  width: $space-4;
+  height: $space-4;
+  place-items: center;
+  border: $border-hairline solid var(--border-soft);
+  background: var(--paper-upload);
+}
+.dateToggle input:checked + .checkmark {
+  border-color: var(--rust);
+  background: var(--rust);
+}
+.dateToggle input:checked + .checkmark::after {
+  width: $space-2;
+  height: $space-tight;
+  border-bottom: $border-medium solid var(--white);
+  border-left: $border-medium solid var(--white);
+  content: '';
+  transform: rotate(-45deg) translate($border-hairline, -$border-hairline);
+}
+.dateToggle input:focus-visible + .checkmark {
+  outline: $border-strong solid var(--rust);
+  outline-offset: $space-micro;
+}
+.captionStyle {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+.captionStyle legend {
+  margin-bottom: $space-tight;
+}
+.captionStyle > div {
+  display: flex;
+  border: $border-hairline solid var(--border-soft);
+  flex-wrap: wrap;
+}
+.captionStyle button {
+  min-height: 1.875rem;
+  padding: 0 $space-2;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: var(--font-xs);
+}
+.captionStyle button + button {
+  border-left: $border-hairline solid var(--border-soft);
+}
+.captionStyle button.active {
+  background: var(--ink);
+  color: var(--white-soft);
+}
+@include respond(small) {
+  .optionRow {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}

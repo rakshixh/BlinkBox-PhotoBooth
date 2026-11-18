@@ -1,0 +1,76 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: $space-5;
+  background: var(--overlay-scrim);
+}
+.dialog {
+  width: min(100%, $size-modal);
+  padding: $space-7-5;
+  border: $border-hairline solid var(--paper-booth-border);
+  background: var(--paper);
+  box-shadow: 0 1.125rem 3.125rem var(--shadow-card);
+  color: var(--ink);
+  text-align: center;
+  outline: none;
+}
+.eyebrow {
+  color: var(--rust);
+  font: var(--font-sm) var(--mono);
+  letter-spacing: $tracking-hairline;
+}
+.dialog h2 {
+  margin: $space-medium 0 $space-2;
+  font: 600 var(--font-heading) var(--serif);
+}
+.dialog p {
+  margin: 0 auto $space-section;
+  max-width: 34ch;
+  color: var(--muted);
+  font: var(--font-body) / 1.5 var(--sans);
+}
+.dialog a {
+  display: inline-flex;
+  min-height: $space-10;
+  align-items: center;
+  justify-content: center;
+  padding: 0 $space-large;
+  border: $border-hairline solid var(--rust);
+  color: var(--rust-dark);
+  text-decoration: none;
+  font: 600 var(--font-body-sm) var(--sans);
+}
+.dialog a:hover,
+.dialog a:focus-visible {
+  background: var(--filter-active);
+}
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-mid-small;
+  margin-top: $space-large-gap;
+  color: var(--muted);
+  font: var(--font-body-sm) var(--sans);
+}
+.countdown b {
+  display: grid;
+  width: $space-8;
+  height: $space-8;
+  place-items: center;
+  border: $border-hairline solid var(--line);
+  border-radius: 50%;
+  color: var(--rust-dark);
+  font: 600 var(--font-body) var(--sans);
+  font-variant-numeric: tabular-nums;
+}
+@include respond(modal) {
+  .dialog {
+    padding: 1.5625rem $space-5;
+  }
+}

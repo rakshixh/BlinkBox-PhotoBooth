@@ -1,0 +1,57 @@
+.surface {
+  --paper-bg: var(--strip-classic-bg);
+  --paper-ink: var(--strip-classic-ink);
+  background-color: var(--paper-bg);
+  background-image: var(--paper-pattern, none);
+  background-size: var(--photo-pattern-size, auto);
+  color: var(--paper-ink);
+}
+.ivory-dots {
+  --paper-bg: var(--pattern-base-dots);
+  --paper-ink: var(--pattern-ink-dark);
+  --paper-pattern: radial-gradient(var(--pattern-dot) 0.08125rem, transparent 0.1rem);
+}
+.black-velvet {
+  --paper-bg: var(--pattern-base-velvet);
+  --paper-ink: var(--pattern-ink-light);
+  --paper-pattern: repeating-linear-gradient(
+    90deg,
+    transparent 0 12%,
+    var(--pattern-velvet) 15%,
+    transparent 23% 31%
+  );
+}
+.silver-stars {
+  --paper-bg: var(--pattern-base-stars);
+  --paper-ink: var(--pattern-ink-light);
+  --paper-pattern:
+    linear-gradient(0deg, transparent 43%, var(--pattern-star) 48% 52%, transparent 57%),
+    linear-gradient(60deg, transparent 43%, var(--pattern-star) 48% 52%, transparent 57%),
+    linear-gradient(120deg, transparent 43%, var(--pattern-star) 48% 52%, transparent 57%);
+}
+.red-curtain {
+  --paper-bg: var(--pattern-base-curtain);
+  --paper-ink: var(--pattern-ink-light);
+  --paper-pattern: repeating-linear-gradient(
+    90deg,
+    transparent 0 10%,
+    var(--pattern-curtain) 13%,
+    transparent 24% 34%
+  );
+}
+.paper-classic {
+  --paper-bg: var(--strip-classic-bg);
+  --paper-ink: var(--strip-classic-ink);
+}
+.paper-darkroom {
+  --paper-bg: var(--strip-darkroom-bg);
+  --paper-ink: var(--strip-darkroom-ink);
+}
+.paper-blush {
+  --paper-bg: var(--strip-blush-bg);
+  --paper-ink: var(--strip-blush-ink);
+}
+.paper-kraft {
+  --paper-bg: var(--strip-kraft-bg);
+  --paper-ink: var(--strip-kraft-ink);
+}

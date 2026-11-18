@@ -1,0 +1,115 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+
+.section {
+  width: 100%;
+  min-width: 0;
+}
+.headingRow {
+  display: flex;
+  align-items: baseline;
+  gap: $space-body-small;
+  margin-bottom: $space-heading-gap;
+}
+.headingRow h2 {
+  margin: 0;
+  color: var(--ink);
+  font: 600 var(--font-heading) var(--serif);
+  letter-spacing: $tracking-heading-tight;
+}
+.count {
+  color: var(--text-count);
+  font: var(--font-sm) var(--mono);
+  letter-spacing: $tracking-label;
+  white-space: nowrap;
+}
+.options {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  gap: $space-mid-small;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: $space-micro $space-tiny $space-medium;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: var(--border-soft) transparent;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+.options::-webkit-scrollbar {
+  height: $space-tight;
+}
+.options::-webkit-scrollbar-thumb {
+  border-radius: $space-tight;
+  background: var(--border-soft);
+}
+.option {
+  position: relative;
+  min-width: 0;
+  flex: 0 0 $size-picker-option;
+  padding: $space-small;
+  border: $border-hairline solid transparent;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  scroll-snap-align: start;
+}
+.option:hover:not(:disabled) {
+  background: var(--filter-hover);
+}
+.option.selected {
+  border-color: var(--rust);
+  background: var(--filter-active);
+}
+.option:disabled {
+  cursor: not-allowed;
+}
+.swatch {
+  display: grid;
+  width: 100%;
+  aspect-ratio: 1.5;
+  place-items: center;
+  overflow: hidden;
+  margin-bottom: $space-2;
+  box-shadow: 0 $space-tiny $space-2 var(--shadow-paper);
+}
+.previewLabel {
+  color: var(--filter-cream);
+  font: italic var(--font-swatch) var(--serif);
+  text-shadow: 0 $space-micro $space-2 var(--shadow-text);
+}
+.name,
+.note {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.name {
+  font-size: var(--font-md);
+  font-weight: 600;
+}
+.note {
+  margin-top: $space-tiny;
+  color: var(--muted);
+  font: var(--font-sm) var(--serif);
+  font-style: italic;
+}
+.check {
+  position: absolute;
+  top: $space-body-small;
+  right: $space-body-small;
+  display: grid;
+  width: $space-4;
+  height: $space-4;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--rust);
+  color: var(--white);
+}
+@include respond(small) {
+  .option {
+    flex-basis: $size-picker-option-small;
+  }
+}

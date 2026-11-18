@@ -1,0 +1,60 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 4.75rem;
+  border-bottom: $border-hairline solid var(--line);
+  position: relative;
+  z-index: 1;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-mid-small;
+  color: var(--ink);
+  text-decoration: none;
+  font: 700 var(--font-brand) var(--serif);
+  letter-spacing: $tracking-brand;
+}
+.brandMark {
+  display: inline-flex;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex: 0 0 1.75rem;
+  color: var(--rust);
+}
+.period {
+  color: var(--rust);
+  margin-left: -$space-mid-small;
+}
+.githubButton {
+  display: inline-flex;
+  min-height: $space-10;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  padding: 0 $space-3;
+  border: $border-hairline solid var(--line);
+  background: var(--cream);
+  color: var(--ink);
+  text-decoration: none;
+  font: 600 var(--font-body-sm) var(--sans);
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+.githubButton:hover,
+.githubButton:focus-visible {
+  border-color: var(--rust);
+  background: var(--paper-upload);
+}
+.githubButton svg {
+  display: block;
+}
+@include respond(mobile) {
+  .header {
+    min-height: 4rem;
+  }
+}

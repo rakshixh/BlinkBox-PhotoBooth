@@ -1,0 +1,265 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as *;
+.previewArea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stageLabel {
+  width: min(100%, $size-preview);
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 $space-large;
+  color: var(--muted);
+  font: var(--font-sm) var(--mono);
+  letter-spacing: $tracking-preview;
+}
+.paperWrap {
+  width: min(100%, $size-preview);
+  padding: $space-3;
+  background: var(--paper-frame);
+  border: $border-hairline solid var(--paper-frame-line);
+  box-shadow: 0 $space-tiny 0 var(--paper-frame-shadow);
+}
+.paper {
+  display: flex;
+  flex-direction: column;
+  gap: $space-medium;
+  padding: $space-medium $space-medium 0;
+  color: var(--paper-ink);
+  box-shadow: 0 $space-1 $space-3 var(--shadow-paper);
+}
+.polaroid {
+  padding-bottom: 1.375rem;
+}
+.photo {
+  appearance: none;
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--photo-ratio);
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  background: var(--paper-photo);
+  cursor: pointer;
+}
+.polaroidWrap {
+  width: min(100%, $size-preview);
+}
+.barePhoto {
+  display: grid;
+  width: min(100%, $size-preview);
+  min-height: 15rem;
+  max-height: 70vh;
+  place-items: center;
+  overflow: hidden;
+  background: transparent;
+}
+.bareFrame {
+  display: grid;
+  position: relative;
+  width: 100%;
+  place-items: center;
+  max-width: 100%;
+  max-height: 70vh;
+  overflow: hidden;
+}
+.bareFrame img {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  filter: var(--photo-filter);
+}
+.bareFrame::before,
+.bareFrame::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  content: '';
+}
+.bareFrame::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");
+  opacity: var(--photo-grain);
+  mix-blend-mode: soft-light;
+}
+.bareFrame::after {
+  z-index: 2;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 38%,
+    color-mix(in srgb, var(--film-vignette-ink) var(--photo-vignette-soft), transparent) 72%,
+    color-mix(in srgb, var(--film-vignette-ink) var(--photo-vignette-full), transparent) 100%
+  );
+}
+.bareFrame .gradeOverlay {
+  z-index: 1;
+}
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: var(--photo-filter);
+  transition: transform 0.35s;
+}
+.gradeOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+}
+.fxn-r {
+  background: linear-gradient(145deg, var(--film-fxn-highlight), var(--film-fxn-shadow));
+}
+.classic-u {
+  background: linear-gradient(145deg, var(--film-classic-warm), var(--film-classic-shadow));
+  mix-blend-mode: multiply;
+}
+.s67-fc100 {
+  background: linear-gradient(145deg, var(--film-s67-cool), var(--film-s67-rose));
+}
+.photo::before,
+.photo::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  content: '';
+}
+.photo::before {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");
+  opacity: var(--photo-grain);
+  mix-blend-mode: soft-light;
+}
+.photo::after {
+  background: radial-gradient(
+    ellipse at center,
+    transparent 38%,
+    color-mix(in srgb, var(--film-vignette-ink) var(--photo-vignette-soft), transparent) 72%,
+    color-mix(in srgb, var(--film-vignette-ink) var(--photo-vignette-full), transparent) 100%
+  );
+}
+.photo:hover img {
+  transform: scale(1.035);
+}
+.selected {
+  outline: $border-strong solid var(--rust);
+  outline-offset: $space-micro;
+  z-index: 1;
+}
+.placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: $space-mid-small;
+  color: var(--text-soft);
+  background: repeating-linear-gradient(
+    135deg,
+    var(--paper-placeholder),
+    var(--paper-placeholder) $space-2,
+    var(--paper-placeholder-alt) $space-2,
+    var(--paper-placeholder-alt) $space-4
+  );
+}
+.placeholder i {
+  font: normal var(--font-camera-icon) var(--serif);
+  opacity: 0.55;
+}
+.placeholder b {
+  font: var(--font-sm) var(--mono);
+  text-transform: uppercase;
+  letter-spacing: $tracking-hairline;
+}
+.frameNumber {
+  position: absolute;
+  top: $space-small;
+  right: $space-2;
+  padding: $space-tiny $space-tight;
+  color: var(--white-fade);
+  background: var(--frame-overlay);
+  font: var(--font-sm) var(--mono);
+  z-index: 3;
+}
+.paperFooter {
+  display: flex;
+  align-items: center;
+  gap: $space-2;
+  min-height: 2.1875rem;
+  color: var(--paper-ink);
+  font: var(--font-sm) var(--mono);
+  letter-spacing: $tracking-label;
+}
+.paperFooter span {
+  max-width: 100%;
+  white-space: nowrap;
+}
+.paperFooter .captionText {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
+}
+.paperFooter .dateText {
+  flex: 0 0 auto;
+  overflow: visible;
+  white-space: nowrap;
+}
+.paperFooter .caption-serif {
+  font: italic var(--font-body-sm) var(--serif);
+  letter-spacing: 0;
+}
+.paperFooter .caption-garamond {
+  font: var(--font-body-sm) var(--garamond);
+  letter-spacing: 0;
+}
+.paperFooter .caption-palatino {
+  font: var(--font-body-sm) var(--palatino);
+  letter-spacing: 0;
+}
+.paperFooter .caption-bookman {
+  font: var(--font-body-sm) var(--bookman);
+  letter-spacing: 0;
+}
+.paperFooter .captionText,
+.paperFooter .dateText {
+  font-size: var(--font-7);
+}
+.paperFooter .captionCompact {
+  font-size: var(--font-2xs);
+}
+.emptyPhoto {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  aspect-ratio: 4 / 3;
+  place-items: center;
+  padding: $space-6;
+  color: var(--muted);
+  background: var(--paper-placeholder);
+  font: italic var(--font-body) var(--serif);
+  text-align: center;
+}
+.previewHint {
+  margin: 0.9375rem 0 0;
+  color: var(--muted);
+  font: italic var(--font-body) var(--serif);
+  text-align: center;
+}
+@include respond(mobile) {
+  .stageLabel,
+  .paperWrap,
+  .barePhoto {
+    width: min(100%, $size-preview-mobile);
+  }
+}
