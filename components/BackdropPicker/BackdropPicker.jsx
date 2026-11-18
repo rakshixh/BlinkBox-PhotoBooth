@@ -14,12 +14,7 @@ export default function BackdropPicker({ selected, onSelect }) {
       selectedId={selected.id}
       onSelect={onSelect}
       renderSwatch={(background, className) => (
-        <BackdropSurface
-          as="span"
-          background={background}
-          className={className}
-          ariaHidden
-        />
+        <BackdropSurface as="span" background={background} className={className} ariaHidden />
       )}
     />
   );
